@@ -167,8 +167,9 @@ To enable debugging, set the log level to `debug` in the ioBroker admin interfac
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Changelog
-0.0.1 - 2024-01-01 (ToGe3688) initial release
 
+## 0.0.1  (2024-01-01)
+* Initial release
 
 ## License
 MIT License
