@@ -265,12 +265,6 @@ This tool can be further customized by adjusting parameters such as temperature 
 
 Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 
-## Development
-
-### Debugging
-
-To enable debugging, set the log level to `debug` in the ioBroker admin interface.
-
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
