@@ -34,15 +34,15 @@ class AiToolbox extends utils.Adapter {
 	async onReady() {
 
 		if (this.config.bots.length == 0) {
-			this.log.warn("No assistants set");
+			this.log.warn("No tools set");
 			return;
 		} else {
-			this.log.debug("Found " + this.config.bots.length + " assistants");
+			this.log.debug("Found " + this.config.bots.length + " tools");
 		}
 
 		for (const bot of this.config.bots) {
 
-			this.log.debug("Initializing objects for assistant: " + bot.bot_name);
+			this.log.debug("Initializing objects for tool: " + bot.bot_name);
 
 			await this.setObjectAsync(bot.bot_name, {
 				type: "device",
@@ -64,7 +64,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync(bot.bot_name + ".statistics.messages", {
 				type: "state",
 				common: {
-					name: "Previous messages for assistant " + bot.bot_name,
+					name: "Previous messages for tool " + bot.bot_name,
 					type: "string",
 					role: "text",
 					read: true,
@@ -106,7 +106,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectAsync(bot.bot_name + ".text_request", {
 				type: "state",
 				common: {
-					name: "Start assistant request",
+					name: "Start tool request",
 					type: "string",
 					role: "text",
 					read: true,
@@ -118,7 +118,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync(bot.bot_name + ".text_response", {
 				type: "state",
 				common: {
-					name: "Response from assistant",
+					name: "Response from tool",
 					type: "string",
 					role: "text",
 					read: true,
@@ -154,7 +154,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync(bot.bot_name + ".response.raw", {
 				type: "state",
 				common: {
-					name: "Raw response from assistant",
+					name: "Raw response from tool",
 					type: "string",
 					role: "indicator",
 					read: true,
@@ -166,7 +166,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync(bot.bot_name + ".response.error", {
 				type: "state",
 				common: {
-					name: "Error response from assistant",
+					name: "Error response from tool",
 					type: "string",
 					role: "indicator",
 					read: true,
@@ -178,7 +178,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync(bot.bot_name + ".statistics.tokens_input", {
 				type: "state",
 				common: {
-					name: "Used input tokens for assistant",
+					name: "Used input tokens for tool",
 					type: "number",
 					role: "indicator",
 					read: true,
@@ -190,7 +190,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync(bot.bot_name + ".statistics.tokens_output", {
 				type: "state",
 				common: {
-					name: "Used output tokens for assistant",
+					name: "Used output tokens for tool",
 					type: "number",
 					role: "indicator",
 					read: true,
@@ -202,7 +202,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync(bot.bot_name + ".statistics.last_request", {
 				type: "state",
 				common: {
-					name: "Last request for assistant",
+					name: "Last request for tool",
 					type: "string",
 					role: "indicator",
 					read: true,
@@ -249,7 +249,7 @@ class AiToolbox extends utils.Adapter {
 
 			if (id.includes(".clear_messages") && state.val) {
 				const bot = await this.getObjectAsync(id);
-				this.log.debug("Clearing message history for assistant " + bot.native.bot_name);
+				this.log.debug("Clearing message history for tool " + bot.native.bot_name);
 				if (bot) {
 					await this.setStateAsync(bot.native.bot_name + ".statistics.messages", { val: "{\"messages\": []}", ack: true });
 					await this.setStateAsync(bot.native.bot_name + ".response.raw", { val: null, ack: true });
@@ -270,15 +270,15 @@ class AiToolbox extends utils.Adapter {
 	}
 
 	/**
-     * Starts a request for the specified assistant with the given text.
+     * Starts a request for the specified tool with the given text.
      * Retries the request if it fails, up to the maximum number of retries specified in the configuration.
      *
      * @param {Object} bot - The bot configuration object.
-     * @param {string} text - The text to send to the assistant.
+     * @param {string} text - The text to send to the tool.
      * @param {number} [tries=1] - The current number of tries for the request.
      */
 	async startBotRequest(bot, text, tries = 1, try_only_once = false) {
-		this.log.info("Starting request for assistant: " + bot.bot_name + " Text: " + text);
+		this.log.info("Starting request for tool: " + bot.bot_name + " Text: " + text);
 		if (tries == 1) {
 			await this.setStateAsync(bot.bot_name + ".request.state", { val: "start", ack: true });
 		}
@@ -289,7 +289,7 @@ class AiToolbox extends utils.Adapter {
 			let messagePairs = {messages: []};
 
 			if (bot.chat_history > 0) {
-				this.log.debug("Chat history is enabled for assistant " + bot.bot_name);
+				this.log.debug("Chat history is enabled for tool " + bot.bot_name);
 				messagePairs = await this.getValidatedMessageHistory(bot);
 				this.log.debug("Adding previous message pairs for request: " + JSON.stringify(messagePairs));
 			}
@@ -299,7 +299,7 @@ class AiToolbox extends utils.Adapter {
 				bot.bot_example_response &&
 				bot.bot_example_response != "") {
 				messagePairs.messages.unshift({ user: bot.bot_example_request, assistant: bot.bot_example_response });
-				this.log.debug("Adding assistant example message pair for request: " + JSON.stringify(messagePairs));
+				this.log.debug("Adding tool example message pair for request: " + JSON.stringify(messagePairs));
 			}
 
 			this.log.debug("Converting message pairs to chat format for request to model");
@@ -320,20 +320,20 @@ class AiToolbox extends utils.Adapter {
 					if (tries == this.config.max_retries) {
 						retry_delay = 0;
 					}
-					this.log.debug("Try " + tries + "/" + this.config.max_retries + " of request for assistant " + bot.bot_name + " failed Text: " + text);
+					this.log.debug("Try " + tries + "/" + this.config.max_retries + " of request for tool " + bot.bot_name + " failed Text: " + text);
 					tries = tries + 1;
-					this.log.debug("Retry request for assistant " + bot.bot_name + " in " + this.config.retry_delay + " seconds Text: " + text);
+					this.log.debug("Retry request for tool " + bot.bot_name + " in " + this.config.retry_delay + " seconds Text: " + text);
 					this.timeouts.push(setTimeout((bot, tries) => {
 						this.startBotRequest(bot, text, tries);
 					}, retry_delay, bot, tries));
 				} else {
-					this.log.error("Request for assistant " + bot.bot_name + " failed after " + this.config.max_retries + " tries Text: " + text);
+					this.log.error("Request for tool " + bot.bot_name + " failed after " + this.config.max_retries + " tries Text: " + text);
 					await this.setStateAsync(bot.bot_name + ".request.state", { val: "failed", ack: true });
 					return false;
 				}
 			} else {
 				await this.addMessagePairToHistory(bot, text, response.text, response.tokens_input, response.tokens_output, response.model);
-				this.log.info("Request for assistant " + bot.bot_name + " successful Text: " + text + " Antwort: " + response.text);
+				this.log.info("Request for tool " + bot.bot_name + " successful Text: " + text + " Antwort: " + response.text);
 				await this.setStateAsync(bot.bot_name + ".request.state", { val: "success", ack: true });
 				return response;
 			}
@@ -406,7 +406,7 @@ class AiToolbox extends utils.Adapter {
 			await this.setStateAsync(bot.bot_name + ".statistics.messages", { val: JSON.stringify(messagesData), ack: true });
 			return true;
 		} else {
-			this.log.debug("Chat history disabled for assistant " + bot.bot_name);
+			this.log.debug("Chat history disabled for tool " + bot.bot_name);
 			return false;
 		}
 	}
@@ -518,11 +518,11 @@ class AiToolbox extends utils.Adapter {
 
 		for (const model of anth_models) {
 			if (model.model_name == bot.bot_model && model.model_active) {
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` found in Anthropic models!`);
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` is ` + bot.bot_model);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` found in Anthropic models!`);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` is ` + bot.bot_model);
 				this.log.debug(`Using API Token: ` + this.config.anth_api_token);
 				if (this.config.anth_api_token == "" || this.config.anth_api_token == null) {
-					this.log.warn(`Anthropic API token not set, can't start assistant request!'`);
+					this.log.warn(`Anthropic API token not set, can't start tool request!'`);
 					return null;
 				}
 				return new AnthropicAiProvider(this, bot);
@@ -531,10 +531,10 @@ class AiToolbox extends utils.Adapter {
 
 		for (const model of opai_models) {
 			if (model.model_name == bot.bot_model && model.model_active) {
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` found in OpenAI models!`);
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` is ` + bot.bot_model);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` found in OpenAI models!`);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` is ` + bot.bot_model);
 				if (this.config.opai_api_token == "" || this.config.opai_api_token == null) {
-					this.log.warn(`OpenAI API token not set, can't start assistant request!'`);
+					this.log.warn(`OpenAI API token not set, can't start tool request!'`);
 					return null;
 				}
 				return new OpenAiProvider(this, bot);
@@ -543,10 +543,10 @@ class AiToolbox extends utils.Adapter {
 
 		for (const model of custom_models) {
 			if (model.model_name == bot.bot_model && model.model_active) {
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` found in Custom models!`);
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` is ` + bot.bot_model);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` found in Custom models!`);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` is ` + bot.bot_model);
 				if (this.config.custom_api_url == "" || this.config.custom_api_url == null) {
-					this.log.warn(`Custom API url not set, can't start assistant request!'`);
+					this.log.warn(`Custom API url not set, can't start tool request!'`);
 					return null;
 				}
 				return new CustomAiProvider(this, bot);
@@ -555,10 +555,10 @@ class AiToolbox extends utils.Adapter {
 
 		for (const model of pplx_models) {
 			if (model.model_name == bot.bot_model && model.model_active) {
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` found in Perplexity models!`);
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` is ` + bot.bot_model);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` found in Perplexity models!`);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` is ` + bot.bot_model);
 				if (this.config.pplx_api_token == "" || this.config.pplx_api_token == null) {
-					this.log.warn(`Perplexity API token not set, can't start assistant request!'`);
+					this.log.warn(`Perplexity API token not set, can't start tool request!'`);
 					return null;
 				}
 				return new PerplexityAiProvider(this, bot);
@@ -567,17 +567,17 @@ class AiToolbox extends utils.Adapter {
 
 		for (const model of oprt_models) {
 			if (model.model_name == bot.bot_model && model.model_active) {
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` found in Openrouter models!`);
-				this.log.debug(`Selected model for assistant ` + bot.bot_name + ` is ` + bot.bot_model);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` found in Openrouter models!`);
+				this.log.debug(`Selected model for tool ` + bot.bot_name + ` is ` + bot.bot_model);
 				if (this.config.oprt_api_token == "" || this.config.oprt_api_token == null) {
-					this.log.warn(`Openrouter API token not set, can't start assistant request!'`);
+					this.log.warn(`Openrouter API token not set, can't start tool request!'`);
 					return null;
 				}
 				return new OpenRouterAiProvider(this, bot);
 			}
 		}
 
-		this.log.warn(`Selected model for assistant ` + bot.bot_name +` not found in available models!`);
+		this.log.warn(`Selected model for tool ` + bot.bot_name +` not found in available models!`);
 		return null;
 	}
 
@@ -598,16 +598,18 @@ class AiToolbox extends utils.Adapter {
 				}
 				for (const bot of this.config.bots) {
 					if (bot.bot_name == obj.message.tool) {
-						this.log.debug("SendTo request for assistant: " + bot.bot_name + " with Text: " + obj.message.text);
+						this.log.debug("SendTo request for tool: " + bot.bot_name + " with Text: " + obj.message.text);
 						const response = await this.startBotRequest(bot, obj.message.text, 1, true);
 						if (!response.text || response.text == "") {
-							this.log.warn("No response from assistant " + bot.bot_name + " for request via sendTo");
+							this.log.warn("No response from tool " + bot.bot_name + " for request via sendTo");
 							return;
 						}
 						if (obj.callback) this.sendTo(obj.from, obj.command, response.text, obj.callback);
 						return;
 					}
 				}
+
+				this.log.warn("Tool " + obj.message.tool +" not found for request via sendTo");
 
 			}
 
