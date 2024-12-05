@@ -79,7 +79,6 @@
 			"custom": true,
 			"notifications": true
 		},
-		"blockly": true,
 		"adminUI": {
 			"config": "json"
 		},

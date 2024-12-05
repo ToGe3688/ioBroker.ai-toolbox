@@ -15,7 +15,8 @@
           "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl":  4
         },
         "max_retries": {
           "type": "number",
@@ -27,7 +28,8 @@
           "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl": 4
         }
       }
     },
@@ -73,6 +75,7 @@
         "bots": {
           "type": "accordion",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
@@ -84,6 +87,7 @@
             {
               "type": "text",
               "attr": "bot_name",
+              "xs": 6,
               "sm": 6,
               "md": 6,
               "lg": 6,
@@ -95,6 +99,7 @@
             },
             {
               "attr": "bot_model",
+              "xs": 6,
               "sm": 6,
               "md": 6,
               "lg": 6,
@@ -109,6 +114,7 @@
             {
               "type": "text",
               "attr": "bot_system_prompt",
+              "xs": 12,
               "sm": 12,
               "md": 12,
               "lg": 12,
@@ -125,6 +131,7 @@
             {
               "type": "text",
               "attr": "bot_example_request",
+              "xs": 12,
               "sm": 12,
               "md": 12,
               "lg": 12,
@@ -141,6 +148,7 @@
             {
               "type": "text",
               "attr": "bot_example_response",
+              "xs": 12,
               "sm": 12,
               "md": 12,
               "lg": 12,
@@ -157,6 +165,7 @@
             {
               "type": "number",
               "attr": "chat_history",
+              "xs": 12,
               "sm": 4,
               "md": 4,
               "lg": 4,
@@ -173,6 +182,7 @@
             {
               "type": "number",
               "attr": "temperature",
+              "xs": 12,
               "sm": 4,
               "md": 4,
               "lg": 4,
@@ -189,6 +199,7 @@
             {
               "type": "number",
               "attr": "max_tokens",
+              "xs": 12,
               "sm": 4,
               "md": 4,
               "lg": 4,
@@ -232,7 +243,8 @@
           "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl": 4
         },
         "model_name_unique_error": {
           "type": "staticText",
@@ -253,6 +265,7 @@
         "anth_models": {
           "type": "table",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
@@ -310,7 +323,8 @@
           "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl": 4
         },
         "model_name_unique_error": {
           "type": "staticText",
@@ -331,6 +345,7 @@
         "opai_models": {
           "type": "table",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
@@ -388,7 +403,8 @@
           "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl": 4
         },
         "model_name_unique_error": {
           "type": "staticText",
@@ -409,6 +425,7 @@
         "pplx_models": {
           "type": "table",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
@@ -466,7 +483,8 @@
           "xs": 12,
           "sm": 12,
           "md": 6,
-          "lg": 4
+          "lg": 4,
+          "xl":  4
         },
         "model_name_unique_error": {
           "type": "staticText",
@@ -487,6 +505,7 @@
         "oprt_models": {
           "type": "table",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
@@ -567,6 +586,7 @@
           "sm": 12,
           "md": 12,
           "lg": 12,
+          "xl": 12,
           "default": "http://192.168.178.123:1234/v1/chat/completions"
         },
         "custom_api_token": {
@@ -575,7 +595,8 @@
           "xs": 12,
           "sm": 12,
           "md": 12,
-          "lg": 12
+          "lg": 12,
+          "xl": 12
         },
         "model_name_unique_error": {
           "type": "staticText",
@@ -596,6 +617,7 @@
         "custom_models": {
           "type": "table",
           "newLine": true,
+          "xs": 12,
           "sm": 12,
           "md": 12,
           "lg": 12,
