@@ -1,4 +1,4 @@
-![Logo](admin/ai-toolbox.png)
+﻿![Logo](admin/ai-toolbox.png)
 # ioBroker.ai-toolbox
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.ai-toolbox.svg)](https://www.npmjs.com/package/iobroker.ai-toolbox)
@@ -10,151 +10,260 @@
 
 **Tests:** ![Test and Release](https://github.com/ToGe3688/ioBroker.ai-toolbox/workflows/Test%20and%20Release/badge.svg)
 
-# AI Toolbox for ioBroker
+## Overview
 
-The ioBroker AI Toolbox Adapter is a powerful integration that enables users to create and manage custom AI tools based on LLMs within their ioBroker smart home environment. This adapter supports multiple providers of Large Language Models (LLMs) and a flexible framework for AI-based automation and interaction.
-
+The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart home. It supports multiple Large Language Model (LLM) providers and provides a flexible framework for automation and interaction. By combining real-time data from smart home devices, with AI capabilities, the ioBroker AI Toolbox Adapter can create highly personalized and useful tools for your household automation tasks.
 
 ## Features
 
-- Supports multiple AI providers and models
-- Handles chat history for better context in conversations
-- Retries failed requests up to a configurable maximum
-- Provides statistics on token usage and request history
+- Multiple AI providers and models support.
+- Chat history management for context retention.
+- Configurable retries for failed requests.
+- Token usage and request history statistics.
 
-### AI/LLM Providers
+## Supported Providers
 
-The adapter supports the following AI providers:
+- **Anthropic**: [anthropic.com](https://anthropic.com)  
+- **OpenAI**: [openai.com](https://openai.com)  
+- **Perplexity**: [perplexity.ai](https://perplexity.ai)  
+- **OpenRouter**: [openrouter.ai](https://openrouter.ai) (Free usage models for beginners)  
+- **Custom/Self-hosted Models** (e.g., LM Studio, LocalAI)  
 
-- Anthropic (https:/anthropic.com)
-- OpenAI (https://openai.com)
-- Perplexity  (https://perplexity.ai)
-- OpenRouter (https://openrouter.ai) **<- Provides access to free usage models, perfect to get started and playing arround!**
-- Custom / Selfhosted Models (e.g. LM Studio / LocalAI) 
-# Installation
+---
 
-**After installation, you need to configure the adapter in the ioBroker admin interface. The configuration includes setting up the AI providers and their respective API tokens. For every provider you can define which models should be available to use in your tools.**
+## Quick Start
+1. Install the adapter.
+2. Get API Token from openrouter.ai
+3. Configure the adapter with the API Token.
+4. The Example tools created at installation use the free model meta-llama/llama-3.2-3b-instruct:free for OpenRouter.
+5. Send a message to the tool with the .text_request datapoint and check .text_response for the response.
 
-# Configuration
+Please note the free models sometimes have a long wait time for the first response, may be overloaded or have other limitations. Models also vary in quality and capabilities, make sure to select the right model for your use case.
 
-## General Settings
-**This settings will apply to all your defined tools.**
+---
 
-**Retry Delay**: Delay between tries to fulfill requests.
+## Configuration
 
-**Maximum Retries**: Max number of tries to fulfill a request.
+### General Settings
 
-## Tools
-**A tool is a custom AI you are forming by text input to fulfill your desired action. Tools can be used for a wide range of applications from personalized text reports, formatting random data, chat bots, personal assistants. Your imagination is the limit.**
+These settings apply globally to all defined tools:
 
-**Name**: Name for the Tool you want to create
- 
-**Model**: Which LLM Model should be used for this tool. You can select all models you have setup under the providers.
+| **Setting**         | **Description**                     |
+|----------------------|-------------------------------------|
+| **Retry Delay**      | Delay between retry attempts.       |
+| **Maximum Retries**  | Maximum number of retries per request. |
 
-**System Prompt**: The system prompt which should contain all relevant information that describes the tool. Be as specific as possible.
+---
 
-**Example Request (Optional)**: Example for a request you are going to send to the tool.
+### Tools
 
-**Example Response (Needed if Example Request defined)**: An example for your desired perfect answer to the defined example request.
+Define custom AI tools tailored to specific tasks:
 
-**Message History**: If greater than 0, previous messages will be included in the request so the tool will stay in context. This can be used to get a chat bot like experience for the tool. For single use tools this should be kept at 0 to reduce token usage.
+| **Setting**           | **Description**                                                                                                                                 |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Name**              | The tool's name.                                                                                                                               |
+| **Model**             | Select the LLM model (configured under providers).                                                                                             |
+| **System Prompt**     | Provide detailed information describing the tool.                                                                                              |
+| **Example Request**   | (Optional) A sample request.                                                                                                                   |
+| **Example Response**  | (Required if an example request is provided) The ideal response.                                                                               |
+| **Message History**   | Include prior messages (for chatbot-like behavior). Set to 0 for single-use tools to minimize token usage.                                     |
+| **Temperature**       | Controls response creativity/consistency.                                                                                                      |
+| **Max. Tokens**       | Limits the response token count.                                                                                                               |
 
-**Temperature**: Setting for creativity/consistency of the model's response.
+---
 
-**Max. Tokens**: Limit the response of the tool to your desired amount of tokens.
+### LLM Providers
 
-## LLM Providers
+Configure each AI provider individually:
 
-### Anthropic
+#### Anthropic
 
-**API Token**: Please enter your Anthropic API Token to start using models like Opus, Haiku, and Sonnet.
+| **Setting**     | **Description**                              |
+|-----------------|----------------------------------------------|
+| **API Token**   | Enter your Anthropic API token.              |
+| **Models**      | Specify the models to use.                   |
 
-**Models**: Specify the models you want to use with Anthropic.
+#### OpenAI
 
-### OpenAI
+| **Setting**     | **Description**                              |
+|-----------------|----------------------------------------------|
+| **API Token**   | Enter your OpenAI API token.                 |
+| **Models**      | Specify the models to use.                   |
 
-**API Token**: Please enter your OpenAI API Token to start using models like Gpt4, Gpt4-o1, and Gpt3-5.
- 
-**Models**: Specify the models you want to use with OpenAI.
+#### Perplexity
 
-### Perplexity
+| **Setting**     | **Description**                              |
+|-----------------|----------------------------------------------|
+| **API Token**   | Enter your Perplexity API token.             |
+| **Models**      | Specify the models to use.                   |
 
-**API Token**: Please enter your Perplexity API Token to start using the models.
+#### OpenRouter
 
-**Models**: Specify the models you want to use with Perplexity.
+| **Setting**     | **Description**                              |
+|-----------------|----------------------------------------------|
+| **API Token**   | Enter your OpenRouter API token.             |
+| **Models**      | Specify the models to use.                   |
 
-### Openrouter
+#### Custom
 
-**API Token**: Please enter your Openrouter API Token to start using the models.
+| **Setting**                        | **Description**                                                                  |
+|------------------------------------|----------------------------------------------------------------------------------|
+| **Inference Server URL**           | URL of the custom/self-hosted inference server.                                  |
+| **API Token for Inference Server** | API token for your inference server.                                             |
+| **Models**                         | Specify the models to use.                                                      |
+| **Note**                           | Ensure compliance with common AI LLM API standards (e.g., LM Studio API).       |
 
-**Models**: Specify the models you want to use with Openrouter.
+---
 
-### Custom
+## Using Your Tools
 
-**URL for Inference Server**: URL for your custom or self-hosted inference server.
+### Object Interaction
 
-**API Token for Inference Server**: API Token for your custom or self-hosted inference server.
+Each tool appears in the ioBroker object tree.  
+Use `.text_request` to send queries and `.text_response` to retrieve answers.
 
-**Models**: Specify the models you want to use with your custom inference server.
+### Script Integration (`sendTo`)
 
-**Custom API has to follow the standards used by common AI LLM interfaces. See for example the documentation of LM Studio API!**
+You can interact programmatically using the `sendTo` function:
 
-
-# Using your tools
-
-## Usage with Objects
-
-Once configured, the adapter will create objects for each tool in the ioBroker object tree. 
-You can interact with the tool by setting the `.text_request` state. 
-The response from the tool will be available in the `.text_response` state.
-
-## Usage with sendTo
-
-You can also use your created tools with sendTo in Adapters like Javascript and retrieve the result of the tool request. You have to define the following parameters in your "send" call:
-
-**tool**: The name of the ai tool you want to use
-
-**text**: The text you want the tool to respond to
-
-Example:
-```
+```javascript
 sendTo('ai-toolbox.0', 'send', {
-        'tool': 'YOUR-TOOL-NAME',
-        'text': 'The message for the tool to respond to',
-    }, async (result) => {
-        // result contains the text response
-        console.info(result);
+    'tool': 'YOUR-TOOL-NAME',
+    'text': 'The message for the tool to respond to',
+}, async (result) => {
+    console.info(result); // Outputs the tool's response
 });
 ```
 
+---
 
-You will find additional information for your request in the following datapoints:
+## Additional Information
 
 ### Statistics
 
-**.statistics.lastRequest**: Datetime of last request for the tool
-
-**.statistics.messages**: A json object containing an array of the message history. (Will only be set if you defined Message History > 0)
-
-**.statistics.tokens_input**: Total used input/prompt tokens for the tool
-
-**.statistics.tokens_output**: Total used output tokens for the tool
-
-**.statistics.clear_messages**: Use this button to clear the message history
+| **Datapoint**               | **Description**                                                             |
+|-----------------------------|-----------------------------------------------------------------------------|
+| **.statistics.lastRequest** | Timestamp of the last request.                                              |
+| **.statistics.messages**    | JSON array of message history (if message history > 0).                     |
+| **.statistics.tokens_input**| Total input tokens used.                                                    |
+| **.statistics.tokens_output**| Total output tokens used.                                                  |
+| **.statistics.clear_messages**| Clear message history button.                                             |
 
 ### Request
 
-**.request.body**: Body of the request sent to the API
-
-**.request.state**: State of the request
-
+| **Datapoint**       | **Description**                               |
+|---------------------|-----------------------------------------------|
+| **.request.body**   | Request body sent to the API.                 |
+| **.request.state**  | Current state of the request.                 |
 
 ### Response
 
-**.request.error**: Will be set if an error occurs during the request
+| **Datapoint**      | **Description**                                  |
+|--------------------|--------------------------------------------------|
+| **.request.error** | Populated if an error occurs.                    |
+| **.request.raw**   | Raw JSON response from the model.                |
 
-**.request.raw**: RAW JSON response of the used model
+---
 
+
+## Examples
+
+The following examples demonstrate how to configure and use customized AI tools within the ioBroker AI Toolbox Adapter. These examples showcase how the adapter can leverage data to provide intelligent responses and recommendations.
+
+---
+
+### Example 1: Music Suggestion Assistant
+**Description:** Recommends music playlists based on the current weather and time of day. Can be used with a smart speaker like Alexa or Google Home.
+
+- **Name:** `music-recommender`
+- **System Prompt:**  
+  `"You are a music assistant. Based on the current weather and time of day, suggest a playlist or genre that matches the mood. Use concise and creative recommendations. You answer only with your suggestion and nothing else."`
+- **Example Request:**  
+  `"Current Time 24th December 2024 17:30. Outside Temperature: 10°C."`
+- **Example Response:**  
+  `"Christmas Music"`
+- **Message History:** `7` (We use a value of 7 because we are going to trigger this example tool once a day and dont want it to repeat its answers. With this setting it will see what it suggested in the last 7 responses to our requests.)
+- **Temperature:** `0.7` (Balances creativity and relevance)
+
+**Examples for a request and response to this tool could look like this:**
+
+| **Request**      | **Response**                                  |
+|--------------------|--------------------------------------------------|
+| `Current time 3rd June 2024 16:00. Outside Temperature: 31°C` | `Latin Summer Music`  |
+| `Current time 4th February 2024 20:00. Outside Temperature: 5°C` | `Jazz Music`  |
+| `Current time 11th November 2024 12:00. Outside Temperature: 15°C` | `Acoustic Guitar Music`  |
+
+Here is an example of a tool that recommends light settings based on the current playing music and outputs JSON with RGB hex values for five different RGB lights:
+
+---
+
+### Example 2: Light Settings Recommender
+
+**Description:** Recommends RGB light settings based on the mood and genre of the currently playing music. The tool analyzes the music's characteristics (e.g., tempo, mood) and suggests appropriate lighting colors for five RGB lights. Outputs JSON with RGB hex values for each light.
+
+- **Name:** `light-setter`
+
+- **System Prompt:**
+
+  `"You are a smart home assistant. Based on the characteristics of the currently playing music, recommend RGB hex color values for five different lights to create an immersive atmosphere. Respond only with a JSON object containing the RGB hex values for each light."`
+
+- **Example Request:**
+
+  ```json
+  Faithless - Insomnia
+  ```
+
+- **Example Response:**
+
+  ```json
+  {
+    "light1": "#FF4500",
+    "light2": "#FFA500",
+    "light3": "#FFFF00",
+    "light4": "#ADFF2F",
+    "light5": "#00FF00"
+  }
+  ```
+
+- **Message History:** `0` (Single-use tool to minimize token usage.)
+
+- **Temperature:** `0.6` (Balances creativity and consistency.)
+
+---
+
+### Example Requests and Responses
+
+| **Request**                                                                                     | **Response**                                                                                                                                              |
+|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `The Beatles - Here Comes The Sun`                                                             | `{ "light1": "#FFD700", "light2": "#FFA500", "light3": "#FF8C00", "light4": "#FF4500", "light5": "#FF0000" }`                                             |
+| `Beethoven - Symphony No. 9`                                                                   | `{ "light1": "#FF0000", "light2": "#FF4500", "light3": "#FFA500", "light4": "#FFD700", "light5": "#FFFF00" }`                                             |
+| `Mozart - Eine kleine Nachtmusik`                                                              | `{ "light1": "#FFD700", "light2": "#FFA500", "light3": "#FF8C00", "light4": "#FF4500", "light5": "#FF0000" }`                                             |
+
+---
+
+### Script Integration Example
+
+To use this tool programmatically in ioBroker, you can integrate it via the `sendTo` function:
+
+```javascript
+sendTo('ai-toolbox.0', 'send', {
+  tool: 'light-setter',
+  text: 'Faithless - Insomnia',
+}, async (result) => {
+  console.info(result); // Outputs the recommended RGB hex values for the lights
+});
+```
+
+This tool can be further customized by adjusting parameters such as temperature or system prompts to fine-tune its behavior.
+
+---
+
+
+## Development
+
+### Debugging
+
+Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 
 ## Development
 
@@ -167,9 +276,7 @@ To enable debugging, set the log level to `debug` in the ioBroker admin interfac
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Changelog
-
-## 0.0.1  (2024-01-01)
-* Initial release
+0.0.1 - 2024-01-01 (ToGe3688) initial release
 
 ## License
 MIT License
