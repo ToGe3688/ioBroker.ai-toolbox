@@ -209,7 +209,7 @@ Here is an example of a tool that recommends light settings based on the current
 
 - **Example Request:**
 
-  ```json
+  ```
   Faithless - Insomnia
   ```
 
