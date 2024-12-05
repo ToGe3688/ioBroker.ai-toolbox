@@ -1,0 +1,223 @@
+{
+	"common": {
+		"name": "ai-toolbox",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "A.I. Toolbox",
+			"de": "K.I. Werkzeugkasten",
+			"ru": "А.И. Ящик для инструментов",
+			"pt": "IA Caixa de ferramentas",
+			"nl": "AI Gereedschapskist",
+			"fr": "I.A. Boîte à outils",
+			"it": "A.I. Cassetta degli attrezzi",
+			"es": "AI. Caja de instrumento",
+			"pl": "sztuczna inteligencja Skrzynka narzędziowa",
+			"uk": "А.І. Ящик інструментів",
+			"zh-cn": "人工智能。工具箱"
+		},
+		"desc": {
+			"en": "The ioBroker AI Toolbox Adapter is a powerful integration that enables users to create and manage custom AI tools within their ioBroker smart home environment. This versatile adapter supports multiple Large Language Models (LLMs) and provides a flexible framework for AI-based automation and interaction.",
+			"de": "Der ioBroker AI Toolbox-Adapter ist eine leistungsstarke Integration, die es Benutzern ermöglicht, benutzerdefinierte KI-Tools innerhalb ihrer ioBroker-Smart-Home-Umgebung zu erstellen und zu verwalten. Dieser vielseitige Adapter unterstützt mehrere Large Language Models (LLMs) und bietet ein flexibles Framework für KI-basierte Automatisierung und Interaktion.",
+			"ru": "Адаптер ioBroker AI Toolbox — это мощная интеграция, которая позволяет пользователям создавать собственные инструменты искусственного интеллекта и управлять ими в среде умного дома ioBroker. Этот универсальный адаптер поддерживает несколько моделей больших языков (LLM) и обеспечивает гибкую основу для автоматизации и взаимодействия на основе искусственного интеллекта.",
+			"pt": "O adaptador ioBroker AI Toolbox é uma integração poderosa que permite aos usuários criar e gerenciar ferramentas de IA personalizadas em seu ambiente doméstico inteligente ioBroker. Este adaptador versátil oferece suporte a vários modelos de linguagem grande (LLMs) e fornece uma estrutura flexível para automação e interação baseadas em IA.",
+			"nl": "De ioBroker AI Toolbox Adapter is een krachtige integratie waarmee gebruikers aangepaste AI-tools kunnen creëren en beheren binnen hun ioBroker smart home-omgeving. Deze veelzijdige adapter ondersteunt meerdere Large Language Models (LLM's) en biedt een flexibel raamwerk voor op AI gebaseerde automatisering en interactie.",
+			"fr": "L'adaptateur ioBroker AI Toolbox est une intégration puissante qui permet aux utilisateurs de créer et de gérer des outils d'IA personnalisés dans leur environnement de maison intelligente ioBroker. Cet adaptateur polyvalent prend en charge plusieurs grands modèles de langage (LLM) et fournit un cadre flexible pour l'automatisation et l'interaction basées sur l'IA.",
+			"it": "L'adattatore AI Toolbox ioBroker è una potente integrazione che consente agli utenti di creare e gestire strumenti AI personalizzati all'interno del loro ambiente di casa intelligente ioBroker. Questo versatile adattatore supporta più Large Language Models (LLM) e fornisce un framework flessibile per l'automazione e l'interazione basate sull'intelligenza artificiale.",
+			"es": "El adaptador ioBroker AI Toolbox es una poderosa integración que permite a los usuarios crear y administrar herramientas de IA personalizadas dentro de su entorno doméstico inteligente ioBroker. Este adaptador versátil admite múltiples modelos de lenguajes grandes (LLM) y proporciona un marco flexible para la automatización e interacción basadas en IA.",
+			"pl": "Adapter ioBroker AI Toolbox to potężna integracja, która umożliwia użytkownikom tworzenie niestandardowych narzędzi AI i zarządzanie nimi w inteligentnym środowisku domowym ioBroker. Ten wszechstronny adapter obsługuje wiele modeli dużych języków (LLM) i zapewnia elastyczną platformę dla automatyzacji i interakcji opartej na sztucznej inteligencji.",
+			"uk": "Адаптер ioBroker AI Toolbox Adapter — це потужна інтеграція, яка дозволяє користувачам створювати спеціальні інструменти AI і керувати ними в середовищі розумного дому ioBroker. Цей універсальний адаптер підтримує кілька великих мовних моделей (LLM) і забезпечує гнучку структуру для автоматизації та взаємодії на основі ШІ.",
+			"zh-cn": "ioBroker AI Toolbox 适配器是一个功能强大的集成，使用户能够在其 ioBroker 智能家居环境中创建和管理自定义 AI 工具。这款多功能适配器支持多种大型语言模型 (LLM)，并为基于 AI 的自动化和交互提供灵活的框架。"
+		},
+		"authors": [
+			"ToGe3688 <toge3688@gmail.com>"
+		],
+		"keywords": [
+			"AI",
+			"KI",
+			"OpenAI",
+			"ChatGPT",
+			"Anthropic",
+			"Openrouter",
+			"Perplexity",
+			"LM Studio",
+			"Chatbot",
+			"Bot"
+		],
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
+		"platform": "Javascript/Node.js",
+		"icon": "ai-toolbox.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/ToGe3688/ioBroker.ai-toolbox/main/admin/ai-toolbox.png",
+		"readme": "https://github.com/ToGe3688/ioBroker.ai-toolbox/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"mode": "daemon",
+		"type": "logic",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "push",
+		"messagebox": true,
+		"supportedMessages": {
+			"custom": true,
+			"notifications": true
+		},
+		"blockly": true,
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=6.0.11"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=6.17.1"
+			}
+		]
+	},
+	"native": {
+		"retry_delay": 30,
+		"max_retries": 3,
+		"bots": [
+			{
+				"bot_name": "Inspirator",
+				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
+				"bot_system_prompt": "You are an intelligent AI that only responds with short inspiring quotes based on the user input",
+				"bot_example_request": "Today is very cold",
+				"bot_example_response": "The coldest of nights can lead to the warmest of mornings.",
+				"temperature": 0.6,
+				"max_tokens": 2000,
+				"chat_history": 0
+			},
+			{
+				"bot_name": "Weatherfrog",
+				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
+				"bot_system_prompt": "You are an assistant that creates individual and funny weather reports based on the provided data by the used",
+				"bot_example_request": "Today High 16°C Low: 6°C, 3mm Rain, Cloudcover 30%, 6 Sun hours, Wind 32kmh, Gusts 64kmh",
+				"bot_example_response": "Good morning, folks. Today's forecast is a mixed bag - kind of like my aunt's cooking. On one hand, the sun's trying to make an appearance with a decent 6 hours of sun-time. On the other hand, it's still going to feel pretty chilly, with highs only reaching 16°C. Don't forget your umbrella, though, as 3mm of rain will try to dampen your day. And, if that's not enough, gusts of up to 64kmh will be whispering (read: yelling) 'you're blowing away' in your ear. Cloud cover's relatively low at 30%, so at least that's a minor victory. So, grab a scarf and let's make the most of it!",
+				"temperature": 0.6,
+				"max_tokens": 2000,
+				"chat_history": 0
+			},
+			{
+				"bot_name": "AI-DJ",
+				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
+				"bot_system_prompt": "You are an assistant that provides music genre,artist or topic recommendations based on user input. You respond only with the music genre, artist or topic recommendation and nothing else.",
+				"bot_example_request": "Today is the 24th december 2024",
+				"bot_example_response": "Christmas Songs",
+				"temperature": 0.6,
+				"max_tokens": 2000,
+				"chat_history": 0
+			}
+		],
+		"anth_models": [
+			{
+				"model_active": true,
+				"model_name": "claude-3-5-sonnet-latest"
+			},
+			{
+				"model_active": true,
+				"model_name": "claude-3-5-haiku-latest"
+			},
+			{
+				"model_active": true,
+				"model_name": "claude-3-opus-latest"
+			}
+		],
+		"opai_models": [
+			{
+				"model_active": true,
+				"model_name": "gpt-4o"
+			},
+			{
+				"model_active": true,
+				"model_name": "gpt-4o-mini"
+			},
+			{
+				"model_active": true,
+				"model_name": "gpt-4-turbo"
+			},
+			{
+				"model_active": true,
+				"model_name": "gpt-4"
+			},
+			{
+				"model_active": true,
+				"model_name": "gpt-3.5-turbo"
+			},
+			{
+				"model_active": true,
+				"model_name": "o1-mini"
+			}
+		],
+		"custom_models": [
+		],
+		"pplx_models": [
+			{
+				"model_active": true,
+				"model_name": "llama-3.1-sonar-small-128k-online"
+			},
+			{
+				"model_active": true,
+				"model_name": "llama-3.1-sonar-large-128k-online"
+			},
+			{
+				"model_active": true,
+				"model_name": "llama-3.1-sonar-huge-128k-online"
+			}
+		],
+		"oprt_models": [
+			{
+				"model_active": true,
+				"model_name": "meta-llama/llama-3.2-3b-instruct:free"
+			},
+			{
+				"model_active": true,
+				"model_name": "qwen/qwen-2-7b-instruct:free"
+			},
+			{
+				"model_active": true,
+				"model_name": "mistralai/mistral-7b-instruct:free"
+			},
+			{
+				"model_active": true,
+				"model_name": "microsoft/phi-3-mini-128k-instruct:free"
+			}
+		]
+	},
+	"protectedNative": [
+		"anth_api_token",
+		"opai_api_token",
+		"pplx_api_token",
+		"oprt_api_token",
+		"custom_api_token"
+	],
+	"encryptedNative": [
+		"anth_api_token",
+		"opai_api_token",
+		"pplx_api_token",
+		"oprt_api_token",
+		"custom_api_token"
+	],
+	"objects": [],
+	"instanceObjects": []
+}

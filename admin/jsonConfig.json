@@ -1,0 +1,632 @@
+{
+  "type": "tabs",
+  "items": {
+    "tab_1": {
+      "type": "panel",
+      "label": "Settings",
+      "items": {
+        "retry_delay": {
+          "type": "number",
+          "label": "Retry Delay",
+          "min": 15,
+          "max": 300,
+          "help": "Delay between tries to fulfill requests",
+          "default": 60,
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        },
+        "max_retries": {
+          "type": "number",
+          "label": "Maximum Retries",
+          "min": 0,
+          "max": 10,
+          "help": "Max number of tries to fulfill a request",
+          "default": 3,
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        }
+      }
+    },
+    "tab_2": {
+      "type": "panel",
+      "label": "Tools",
+      "items": {
+
+        "bot_name_unique_error": {
+          "type": "staticText",
+          "text": "ERROR: column 'Name' must contain unique text",
+          "newLine": true,
+          "hidden": "const x={}; for(let ii=0; data.bots && ii<data.bots.length; ii++){const t=data.bots[ii].bot_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validator": "const x={}; for(let ii=0; data.bots && ii<data.bots.length; ii++){const t=data.bots[ii].bot_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validatorNoSaveOnError": true,
+          "style": {
+            "color": "red"
+          },
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 6,
+          "xl": 6
+        },
+
+        "bot_name_invalid_error": {
+          "type": "staticText",
+          "text": "ERROR: column 'Name' must contain characters A-Za-z0-9 and _ only and must not start with an _",
+          "newLine": true,
+          "hidden": "if (!data.bots) return true; for (const c of data.bots) {if (c.bot_name !== '' && !c.bot_name.match(/^[A-Za-z0-9]([A-Za-z0-9-_])*$/)) return false;}; return true;",
+          "validator": "if (!data.bots) return true; for (const c of data.bots) {if (c.bot_name !== '' && !c.bot_name.match(/^[A-Za-z0-9]([A-Za-z0-9-_])*$/)) return false;}; return true;",
+          "validatorNoSaveOnError": true,
+          "style": {
+            "color": "red"
+          },
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 6,
+          "xl": 6
+        },
+
+        "bots": {
+          "type": "accordion",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "Tools",
+          "clone": true,
+          "titleAttr": "bot_name",
+          "items": [
+            {
+              "type": "text",
+              "attr": "bot_name",
+              "sm": 6,
+              "md": 6,
+              "lg": 6,
+              "xl": 6,
+              "label": "Name",
+              "tooltip": "Name for the Tool",
+              "default": "AI-Tool",
+              "maxLength": 30
+            },
+            {
+              "attr": "bot_model",
+              "sm": 6,
+              "md": 6,
+              "lg": 6,
+              "xl": 6,
+              "type": "selectSendTo",
+              "data": { "function": "getAvailableModels" },
+              "command": "getAvailableModels",
+              "label": "Model",
+              "width": "10% ",
+              "tooltip": "Which Model should be used for this tool"
+            },
+            {
+              "type": "text",
+              "attr": "bot_system_prompt",
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12,
+              "label": "System Prompt",
+              "tooltip": "The system prompt which should contain all relevant information that describes the tool",
+              "filter": false,
+              "sort": false,
+              "default": "You are an intelligent AI tool that has the task to..",
+              "minRows": 4,
+              "maxRows": 7,
+              "maxLength": 2000
+            },
+            {
+              "type": "text",
+              "attr": "bot_example_request",
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12,
+              "label": "Example request (Optional)",
+              "tooltip": "Example for a request you are going to send to the tool",
+              "filter": false,
+              "sort": false,
+              "default": "Please write an example of how you will send a request to this tool",
+              "minRows": 4,
+              "maxRows": 7,
+              "maxLength": 2000
+            },
+            {
+              "type": "text",
+              "attr": "bot_example_response",
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12,
+              "label": "Example response (Needed if Example request is defined!)",
+              "tooltip": "An example for the perfect answer to the defined example request",
+              "filter": false,
+              "sort": false,
+              "default": "Please write the answer in the format and style you would like to receive from the tool",
+              "minRows": 4,
+              "maxRows": 7,
+              "maxLength": 2000
+            },
+            {
+              "type": "number",
+              "attr": "chat_history",
+              "sm": 4,
+              "md": 4,
+              "lg": 4,
+              "xl": 4,
+              "label": "Message History (Chat Mode)",
+              "tooltip": "If greater 0 previous messages will be included in the request so the tool will stay in context",
+              "filter": false,
+              "sort": false,
+              "min": 0,
+              "max": 60,
+              "step": 1,
+              "default": 0
+            },
+            {
+              "type": "number",
+              "attr": "temperature",
+              "sm": 4,
+              "md": 4,
+              "lg": 4,
+              "xl": 4,
+              "label": "Temperature",
+              "tooltip": "Setting for creativity/consistency of the models response. (Leave at default if you are not sure!=",
+              "filter": false,
+              "sort": false,
+              "min": 0,
+              "max": 1,
+              "step": 0.1,
+              "default": 0.6
+            },
+            {
+              "type": "number",
+              "attr": "max_tokens",
+              "sm": 4,
+              "md": 4,
+              "lg": 4,
+              "xl": 4,
+              "label": "Max. Tokens",
+              "tooltip": "Limit the response of the tool to your desired amount of tokens.",
+              "filter": false,
+              "sort": false,
+              "min": 0,
+              "max": 10000,
+              "step": 1,
+              "default": 2000
+            }
+          ]
+        }
+      }
+    },
+    "tab_3": {
+      "type": "panel",
+      "label": "Anthropic",
+      "items": {
+        "deviderTxt1": {
+          "type": "staticText",
+          "text": "Please enter your Anthropic API Token to start using models like Opus, Haiku and Sonnet. If there are new models released you can simply add them in the table to start using them with ai assistants.",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        },
+        "dividerHdr": {
+          "newLine": true,
+          "type": "header",
+          "text": "Settings",
+          "size": 2
+        },
+        "anth_api_token": {
+          "type": "password",
+          "label": "API Token",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        },
+        "model_name_unique_error": {
+          "type": "staticText",
+          "text": "ERROR: column 'Model' must contain unique text",
+          "newLine": true,
+          "hidden": "const x={}; for(let ii=0; data.anth_models && ii<data.anth_models.length; ii++){const t=data.anth_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validator": "const x={}; for(let ii=0; data.anth_models && ii<data.anth_models.length; ii++){const t=data.anth_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validatorNoSaveOnError": true,
+          "style": {
+            "color": "red"
+          },
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 6,
+          "xl": 6
+        },
+        "anth_models": {
+          "type": "table",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "Models",
+          "showSecondAddAt": 5,
+          "items": [
+            {
+              "type": "checkbox",
+              "attr": "model_active",
+              "width": "10% ",
+              "title": "Active",
+              "tooltip": "Model is active",
+              "filter": true,
+              "sort": true,
+              "default": true
+            },
+            {
+              "type": "text",
+              "attr": "model_name",
+              "width": "90% ",
+              "title": "Model",
+              "tooltip": "Name of the Model",
+              "filter": true,
+              "sort": true,
+              "default": ""
+            }
+          ]
+        }
+      }
+    },
+    "tab_4": {
+      "type": "panel",
+      "label": "OpenAI",
+      "items": {
+        "deviderTxt1": {
+          "type": "staticText",
+          "text": "Please enter your OpenAI API Token to start using models like Gpt4, Gpt4-o1, Gpt3-5. If there are new models released you can simply add them in the table to start using them with ai assistants.",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        },
+        "dividerHdr": {
+          "newLine": true,
+          "type": "header",
+          "text": "Settings",
+          "size": 2
+        },
+        "opai_api_token": {
+          "type": "password",
+          "label": "API Token",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        },
+        "model_name_unique_error": {
+          "type": "staticText",
+          "text": "ERROR: column 'Model' must contain unique text",
+          "newLine": true,
+          "hidden": "const x={}; for(let ii=0; data.opai_models && ii<data.opai_models.length; ii++){const t=data.opai_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validator": "const x={}; for(let ii=0; data.opai_models && ii<data.opai_models.length; ii++){const t=data.opai_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validatorNoSaveOnError": true,
+          "style": {
+            "color": "red"
+          },
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 6,
+          "xl": 6
+        },
+        "opai_models": {
+          "type": "table",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "Models",
+          "showSecondAddAt": 5,
+          "items": [
+            {
+              "type": "checkbox",
+              "attr": "model_active",
+              "width": "10% ",
+              "title": "Active",
+              "tooltip": "Model is active",
+              "filter": true,
+              "sort": true,
+              "default": true
+            },
+            {
+              "type": "text",
+              "attr": "model_name",
+              "width": "90% ",
+              "title": "Model",
+              "tooltip": "Name of the Model",
+              "filter": true,
+              "sort": true,
+              "default": ""
+            }
+          ]
+        }
+      }
+    },
+    "tab_5": {
+      "type": "panel",
+      "label": "Perplexity",
+      "items": {
+        "deviderTxt1": {
+          "type": "staticText",
+          "text": "Please enter your Perplexity API Token to start using the models. If there are new models released you can simply add them in the table to start using them with ai assistants.",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        },
+        "dividerHdr": {
+          "newLine": true,
+          "type": "header",
+          "text": "Settings",
+          "size": 2
+        },
+        "pplx_api_token": {
+          "type": "password",
+          "label": "API Token",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        },
+        "model_name_unique_error": {
+          "type": "staticText",
+          "text": "ERROR: column 'Model' must contain unique text",
+          "newLine": true,
+          "hidden": "const x={}; for(let ii=0; data.pplx_models && ii<data.pplx_models.length; ii++){const t=data.pplx_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validator": "const x={}; for(let ii=0; data.pplx_models && ii<data.pplx_models.length; ii++){const t=data.pplx_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validatorNoSaveOnError": true,
+          "style": {
+            "color": "red"
+          },
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 6,
+          "xl": 6
+        },
+        "pplx_models": {
+          "type": "table",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "Models",
+          "showSecondAddAt": 5,
+          "items": [
+            {
+              "type": "checkbox",
+              "attr": "model_active",
+              "width": "10% ",
+              "title": "Active",
+              "tooltip": "Model is active",
+              "filter": true,
+              "sort": true,
+              "default": true
+            },
+            {
+              "type": "text",
+              "attr": "model_name",
+              "width": "90% ",
+              "title": "Model",
+              "tooltip": "Name of the Model",
+              "filter": true,
+              "sort": true,
+              "default": ""
+            }
+          ]
+        }
+      }
+    },
+    "tab_6": {
+      "type": "panel",
+      "label": "Openrouter",
+      "items": {
+        "deviderTxt1": {
+          "type": "staticText",
+          "text": "Please enter your Openrouter API Token to start using the models. If there are new models released you can simply add them in the table to start using them with ai assistants.",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        },
+        "dividerHdr": {
+          "newLine": true,
+          "type": "header",
+          "text": "Settings",
+          "size": 2
+        },
+        "oprt_api_token": {
+          "type": "password",
+          "label": "API Token",
+          "xs": 12,
+          "sm": 12,
+          "md": 6,
+          "lg": 4
+        },
+        "model_name_unique_error": {
+          "type": "staticText",
+          "text": "ERROR: column 'Model' must contain unique text",
+          "newLine": true,
+          "hidden": "const x={}; for(let ii=0; data.pplx_models && ii<data.pplx_models.length; ii++){const t=data.pplx_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validator": "const x={}; for(let ii=0; data.pplx_models && ii<data.pplx_models.length; ii++){const t=data.pplx_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validatorNoSaveOnError": true,
+          "style": {
+            "color": "red"
+          },
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 6,
+          "xl": 6
+        },
+        "oprt_models": {
+          "type": "table",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "Models",
+          "showSecondAddAt": 5,
+          "items": [
+            {
+              "type": "checkbox",
+              "attr": "model_active",
+              "width": "10% ",
+              "title": "Active",
+              "tooltip": "Model is active",
+              "filter": true,
+              "sort": true,
+              "default": true
+            },
+            {
+              "type": "text",
+              "attr": "model_name",
+              "width": "90% ",
+              "title": "Model",
+              "tooltip": "Name of the Model",
+              "filter": true,
+              "sort": true,
+              "default": ""
+            }
+          ]
+        }
+      }
+    },
+    "tab_7": {
+      "type": "panel",
+      "label": "Custom",
+      "items": {
+        "deviderTxt1": {
+          "type": "staticText",
+          "text": "You can use your custom or self hosted inference server to run open source models. The server needs to follow the rest api standards used by many providers, see examples below. Please make sure to add your used models by name to the table below.",
+          "newLine": true,
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        },
+        "link_lmstudio": {
+          "type": "staticLink",
+          "text": "Link to LM Studio",
+          "href": "https://lmstudio.ai/",
+          "icon": "info",
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        },
+        "link_localai": {
+          "type": "staticLink",
+          "text": "Link to LocalAI",
+          "href": "https://localai.io/",
+          "icon": "info",
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12
+        },
+        "dividerHdr": {
+          "newLine": true,
+          "type": "header",
+          "text": "Settings",
+          "size": 2
+        },
+        "custom_api_url": {
+          "type": "text",
+          "label": "URL for Inference Server",
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "default": "http://192.168.178.123:1234/v1/chat/completions"
+        },
+        "custom_api_token": {
+          "type": "password",
+          "label": "API Token for Inference Server",
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 12
+        },
+        "model_name_unique_error": {
+          "type": "staticText",
+          "text": "ERROR: column 'Model' must contain unique text",
+          "newLine": true,
+          "hidden": "const x={}; for(let ii=0; data.custom_models && ii<data.custom_models.length; ii++){const t=data.custom_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validator": "const x={}; for(let ii=0; data.custom_models && ii<data.custom_models.length; ii++){const t=data.custom_models[ii].model_name; if (x[t]==='x') return false; x[t]='x';}; return true;",
+          "validatorNoSaveOnError": true,
+          "style": {
+            "color": "red"
+          },
+          "xs": 12,
+          "sm": 12,
+          "md": 12,
+          "lg": 6,
+          "xl": 6
+        },
+        "custom_models": {
+          "type": "table",
+          "newLine": true,
+          "sm": 12,
+          "md": 12,
+          "lg": 12,
+          "xl": 12,
+          "label": "Models",
+          "showSecondAddAt": 5,
+          "items": [
+            {
+              "type": "checkbox",
+              "attr": "model_active",
+              "width": "10% ",
+              "title": "Active",
+              "tooltip": "Model is active",
+              "filter": true,
+              "sort": true,
+              "default": true
+            },
+            {
+              "type": "text",
+              "attr": "model_name",
+              "width": "90% ",
+              "title": "Model",
+              "tooltip": "Name of the Model",
+              "filter": true,
+              "sort": true,
+              "default": ""
+            }
+          ]
+        }
+
+      }
+    }
+  }
+ }

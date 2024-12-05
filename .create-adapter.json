@@ -1,0 +1,53 @@
+{
+	"cli": true,
+	"target": "directory",
+	"adapterName": "ai-toolbox",
+	"title": "A.I. Toolbox",
+	"description": "The ioBroker AI Toolbox Adapter is a powerful integration that enables users to create and manage custom AI tools within their ioBroker smart home environment. This versatile adapter supports multiple Large Language Models (LLMs) and provides a flexible framework for AI-based automation and interaction.",
+	"keywords": [
+		"AI",
+		"KI",
+		"OpenAI",
+		"ChatGPT",
+		"Anthropic",
+		"Openrouter",
+		"Perplexity",
+		"LM Studio",
+		"Chatbot",
+		"Bot"
+	],
+	"contributors": [
+		"Tobias Geier"
+	],
+	"expert": "no",
+	"features": [
+		"adapter"
+	],
+	"adminFeatures": [],
+	"type": "logic",
+	"startMode": "daemon",
+	"connectionType": "cloud",
+	"dataSource": "push",
+	"connectionIndicator": "no",
+	"language": "JavaScript",
+	"nodeVersion": "20",
+	"adminUi": "json",
+	"tools": [
+		"ESLint",
+		"type checking"
+	],
+	"releaseScript": "yes",
+	"devServer": "yes",
+	"devServerPort": 8081,
+	"indentation": "Tab",
+	"quotes": "double",
+	"authorName": "ToGe3688",
+	"authorGithub": "ToGe3688",
+	"authorEmail": "toge3688@gmail.com",
+	"gitRemoteProtocol": "HTTPS",
+	"gitCommit": "no",
+	"defaultBranch": "main",
+	"license": "MIT License",
+	"dependabot": "yes",
+	"creatorVersion": "2.6.5"
+}
