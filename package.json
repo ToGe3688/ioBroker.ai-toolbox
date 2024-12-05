@@ -23,7 +23,8 @@
     "Perplexity",
     "LM Studio",
     "Chatbot",
-    "Bot"
+    "Bot",
+    "ioBroker"
   ],
   "repository": {
     "type": "git",
