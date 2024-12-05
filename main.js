@@ -596,6 +596,7 @@ class AiToolbox extends utils.Adapter {
 					this.log.warn("Missing or empty parameters for tool request via sendTo");
 					return;
 				}
+
 				for (const bot of this.config.bots) {
 					if (bot.bot_name == obj.message.tool) {
 						this.log.debug("SendTo request for tool: " + bot.bot_name + " with Text: " + obj.message.text);
@@ -609,7 +610,8 @@ class AiToolbox extends utils.Adapter {
 					}
 				}
 
-				this.log.warn("Tool " + obj.message.tool +" not found for request via sendTo");
+				this.log.warn("Tool " + obj.message.tool + " not found for request via sendTo");
+				if (obj.callback) this.sendTo(obj.from, obj.command, false, obj.callback);
 
 			}
 
