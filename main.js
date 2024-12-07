@@ -1014,7 +1014,7 @@ class AiToolbox extends utils.Adapter {
 				let foundModel = null;
 				for (const model of models) {
 					if (model.value == obj.message.model || this.stringToAlphaNumeric(model.value) == obj.message.model) {
-						found = true
+						found = true;
 						foundModel = model.value;
 					}
 				}
