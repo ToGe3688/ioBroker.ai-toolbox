@@ -1,8 +1,11 @@
 {
 	"common": {
 		"name": "ai-toolbox",
-		"version": "0.0.1",
+		"version": "0.0.2",
 		"news": {
+			"0.0.2": {
+				"en": "Fixed issues and added direct model requests"
+			},
 			"0.0.1": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
@@ -94,38 +97,54 @@
 		]
 	},
 	"native": {
-		"retry_delay": 30,
-		"max_retries": 3,
 		"bots": [
 			{
-				"bot_name": "Inspirator",
+				"bot_name": "simple-chatbot",
 				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
-				"bot_system_prompt": "You are an intelligent AI that only responds with short inspiring quotes based on the user input",
-				"bot_example_request": "Today is very cold",
-				"bot_example_response": "The coldest of nights can lead to the warmest of mornings.",
-				"temperature": 0.6,
-				"max_tokens": 2000,
-				"chat_history": 0
+				"bot_system_prompt": "You are a friendly and conversational chatbot. Respond to user messages in an engaging and cheerful way. Keep your answers brief and focus on maintaining a pleasant tone.",
+				"bot_example_request": "Hi there! How are you today?",
+				"bot_example_response": "I'm doing great, thanks for asking! How about you?",
+				"temperature": 0.8,
+				"max_tokens": 3000,
+				"chat_history": 10,
+				"retry_delay": 30,
+				"max_retries": 3
 			},
 			{
-				"bot_name": "Weatherfrog",
+				"bot_name": "weather-reporter",
 				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
-				"bot_system_prompt": "You are an assistant that creates individual and funny weather reports based on the provided data by the used",
-				"bot_example_request": "Today High 16°C Low: 6°C, 3mm Rain, Cloudcover 30%, 6 Sun hours, Wind 32kmh, Gusts 64kmh",
-				"bot_example_response": "Good morning, folks. Today's forecast is a mixed bag - kind of like my aunt's cooking. On one hand, the sun's trying to make an appearance with a decent 6 hours of sun-time. On the other hand, it's still going to feel pretty chilly, with highs only reaching 16°C. Don't forget your umbrella, though, as 3mm of rain will try to dampen your day. And, if that's not enough, gusts of up to 64kmh will be whispering (read: yelling) 'you're blowing away' in your ear. Cloud cover's relatively low at 30%, so at least that's a minor victory. So, grab a scarf and let's make the most of it!",
-				"temperature": 0.6,
+				"bot_system_prompt": "You are a weather reporter chatbot. Based on the input data, generate a detailed and engaging weather report. Your response should include a friendly greeting, a brief overview of the current conditions, and a suggestion for the day. Keep your tone cheerful and informative.",
+				"bot_example_request": "Current datetime 12/7/2024, 12:00:01 PM. Weatherdata: Temperature 7°C, Humidity 87%, Cloudcover 93%, Airpressure 997mbar, Wind 23kmh, Rain 0mm.",
+				"bot_example_response": "Hello there! 🌤️ Happy December 7th! As we step into the afternoon, the weather is quite cool at a temperature of 7°C. With a humidity level of 87%, it feels a bit damp out there, so don’t forget to grab your favorite cozy sweater if you’re heading outside! Cloud cover is fairly high today, sitting at 93%, which gives the sky a soft, overcast appearance. The air pressure is at 997 mbar, and while there’s a moderate wind blowing at 23 km/h, it might feel a tad brisk, so a light jacket would be a good call. The good news is that we haven’t seen any rain today, so if you’re planning to venture out, it’s a great time for a stroll or perhaps a warm drink at your favorite café! Stay warm and enjoy your day! ☕🌧️",
+				"temperature": 0.7,
 				"max_tokens": 2000,
-				"chat_history": 0
+				"chat_history": 5,
+				"retry_delay": 30,
+				"max_retries": 3
 			},
 			{
-				"bot_name": "AI-DJ",
+				"bot_name": "music-recommender",
 				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
-				"bot_system_prompt": "You are an assistant that provides music genre,artist or topic recommendations based on user input. You respond only with the music genre, artist or topic recommendation and nothing else.",
-				"bot_example_request": "Today is the 24th december 2024",
-				"bot_example_response": "Christmas Songs",
+				"bot_system_prompt": "You are a music assistant. Based on the current weather and time of day, suggest a playlist or genre that matches the mood. Use concise and creative recommendations. You answer only with your suggestion and nothing else.",
+				"bot_example_request": "Current Time 24th December 2024 17:30. Outside Temperature: 10°C.",
+				"bot_example_response": "Christmas Music",
+				"temperature": 0.7,
+				"max_tokens": 2000,
+				"chat_history": 7,
+				"retry_delay": 30,
+				"max_retries": 3
+			},
+			{
+				"bot_name": "light-setter",
+				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
+				"bot_system_prompt": "You are a smart home assistant. Based on the characteristics of the currently playing music, recommend RGB hex color values for five different lights to create an immersive atmosphere. Respond only with a JSON object containing the RGB hex values for each light.",
+				"bot_example_request": "Faithless - Insomnia",
+				"bot_example_response": "{\"light1\": \"#FF4500\",\"light2\": \"#FFA500\",\"light3\": \"#FFFF00\",\"light4\": \"#ADFF2F\",\"light5\": \"#00FF00\"}",
 				"temperature": 0.6,
 				"max_tokens": 2000,
-				"chat_history": 0
+				"chat_history": 0,
+				"retry_delay": 30,
+				"max_retries": 3
 			}
 		],
 		"anth_models": [

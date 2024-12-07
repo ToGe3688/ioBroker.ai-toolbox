@@ -1,4 +1,6 @@
-﻿![Logo](admin/ai-toolbox.png)
+﻿
+
+![Logo](admin/ai-toolbox.png)
 # ioBroker.ai-toolbox
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.ai-toolbox.svg)](https://www.npmjs.com/package/iobroker.ai-toolbox)
@@ -12,13 +14,13 @@
 
 ## Overview
 
-The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart home. It supports multiple Large Language Model (LLM) providers and provides a flexible framework for automation and interaction. By combining real-time data from smart home devices, with AI capabilities, the ioBroker AI Toolbox Adapter can create highly personalized and useful tools for your household automation tasks.
+The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart home. It supports multiple Large Language Model (LLM) providers and provides a flexible framework for automation and interaction. By combining real-time data from smart home devices, with AI capabilities, the ioBroker AI Toolbox Adapter can create highly personalized and useful tools for your household automation tasks and interaction with LLM Models.
 
 ## Features
 
 - Multiple AI providers and models support.
+- Create custom AI tools for specific tasks
 - Chat history management for context retention.
-- Configurable retries for failed requests.
 - Token usage and request history statistics.
 
 ## Supported Providers
@@ -33,27 +35,18 @@ The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart
 
 ## Quick Start
 1. Install the adapter.
-2. Get API Token from openrouter.ai
+2. Create Account and g et API Token from openrouter.ai
 3. Configure the adapter with the API Token.
 4. The Example tools created at installation use the free model meta-llama/llama-3.2-3b-instruct:free for OpenRouter.
 5. Send a message to the tool with the .text_request datapoint and check .text_response for the response.
 
 Please note the free models sometimes have a long wait time for the first response, may be overloaded or have other limitations. Models also vary in quality and capabilities, make sure to select the right model for your use case.
 
+**Even if this Readme is written in english, most models are multilingual, just try writing your tools in your native language to get your desired output!**
+
 ---
 
 ## Configuration
-
-### General Settings
-
-These settings apply globally to all defined tools:
-
-| **Setting**         | **Description**                     |
-|----------------------|-------------------------------------|
-| **Retry Delay**      | Delay between retry attempts.       |
-| **Maximum Retries**  | Maximum number of retries per request. |
-
----
 
 ### Tools
 
@@ -69,7 +62,8 @@ Define custom AI tools tailored to specific tasks:
 | **Message History**   | Include prior messages (for chatbot-like behavior). Set to 0 for single-use tools to minimize token usage.                                     |
 | **Temperature**       | Controls response creativity/consistency.                                                                                                      |
 | **Max. Tokens**       | Limits the response token count.                                                                                                               |
-
+| **Retry Delay**      | Delay between retry attempts if the request fails       |
+| **Maximum Retries**  | Maximum number of retries per request. |
 ---
 
 ### LLM Providers
@@ -119,19 +113,46 @@ Configure each AI provider individually:
 
 ### Object Interaction
 
-Each tool appears in the ioBroker object tree.  
-Use `.text_request` to send queries and `.text_response` to retrieve answers.
+Each tool appears in the ioBroker object tree. Use `Tools.$YourToolName.text_request` to send queries and `Tools.$YourToolName.text_response` to retrieve answers.
 
 ### Script Integration (`sendTo`)
 
 You can interact programmatically using the `sendTo` function:
 
 ```javascript
-sendTo('ai-toolbox.0', 'send', {
+sendTo('ai-toolbox.0', 'tool_request', {
     'tool': 'YOUR-TOOL-NAME',
     'text': 'The message for the tool to respond to',
 }, async (result) => {
-    console.info(result); // Outputs the tool's response
+    console.info(result); // Outputs the tool's response as text string
+});
+```
+
+## Using Models without Tools
+
+### Object Interaction
+
+Each defined model also appears in the ioBroker object tree.  Use `Models.$ModelName.text_request` to send queries and `Models.$ModelName.text_response` to retrieve answers. With the script integration you can create even more creative integrations for example you could create a dynamic system prompt.
+
+### Script Integration (`sendTo`)
+
+You can interact programmatically using the `sendTo` function:
+
+```javascript
+sendTo('ai-toolbox.0', 'model_request', {
+    'model': 'MODEL-NAME',
+    'system_prompt': 'System prompt for your request'
+    'temperature': 'Temperature setting for your request'
+    'max_tokens': 'Max number of tokens to generate'
+    'text': 'The message for the tool to respond to',
+}, async (result) => {
+    console.info(result.text); // Text response of the model
+    console.info(result.model); // Used model for request
+    console.info(result.tokens_input); // Used input tokens
+    console.info(result.tokens_output); // Used output tokens
+    console.info(result.error); // Error, populated if request fails
+    console.info(result.request_data); // JSON object with request data
+    console.info(result.response_data); // JSON object with raw response of the API call
 });
 ```
 
@@ -140,21 +161,24 @@ sendTo('ai-toolbox.0', 'send', {
 ## Additional Information
 
 ### Statistics
+Statistics are created for your created tools and also for the models so you can track token usage and other data. 
 
 | **Datapoint**               | **Description**                                                             |
 |-----------------------------|-----------------------------------------------------------------------------|
 | **.statistics.lastRequest** | Timestamp of the last request.                                              |
-| **.statistics.messages**    | JSON array of message history (if message history > 0).                     |
+| **.statistics.messages***     | JSON array of message history (if message history > 0).
+| **.statistics.clear_messages***| Clear message history button.      
 | **.statistics.tokens_input**| Total input tokens used.                                                    |
 | **.statistics.tokens_output**| Total output tokens used.                                                  |
-| **.statistics.clear_messages**| Clear message history button.                                             |
+                                     
+ `* only available for tools, models don't have a message history`                                       
 
 ### Request
 
 | **Datapoint**       | **Description**                               |
 |---------------------|-----------------------------------------------|
 | **.request.body**   | Request body sent to the API.                 |
-| **.request.state**  | Current state of the request.                 |
+| **.request.state**  | Current state of the request. (start, success, retry, error, failed)               |
 
 ### Response
 
@@ -172,7 +196,101 @@ The following examples demonstrate how to configure and use customized AI tools 
 
 ---
 
-### Example 1: Music Suggestion Assistant
+### Example 1: Simple Chatbot
+
+**Description:** A basic chatbot that responds to user messages in a conversational and friendly manner. This can be used to for a casual chat experience.
+
+-   **Name:** `simple-chatbot`
+    
+-   **System Prompt:**  
+    `"You are a friendly and conversational chatbot. Respond to user messages in an engaging and cheerful way. Keep your answers brief and focus on maintaining a pleasant tone."`
+    
+-   **Example Request:**  
+    `"Hi there! How are you today?"`
+    
+-   **Example Response:**  
+    `"I'm doing great, thanks for asking! How about you?"`
+    
+-   **Message History:** `10` (Allows the chatbot to remember the context of the conversation up to 10 exchanges for a more natural flow.)
+    
+-   **Temperature:** `0.8` (Encourages creativity while keeping responses relevant and friendly.)
+    
+
+----------
+
+### Example Requests and Responses
+| **Request**      | **Response**                                  |
+|--------------------|--------------------------------------------------|
+| `What's your favorite color?` | `I love blue! It reminds me of the sky.`  |
+| `Do you know any jokes?` | `Why don’t skeletons fight each other? They don’t have the guts!`  |
+| `Tell me something interesting.` | `Did you know that octopuses have three hearts? Cool, right?`  |
+
+----------
+
+### Script Integration Example
+
+To use this tool programmatically in ioBroker, you can integrate it via the `sendTo` function:
+
+```javascript
+sendTo('ai-toolbox.0', 'tool_request', {
+  tool: 'simple-chatbot',
+  text: 'Hi, chatbot! How’s it going?',
+}, async (result) => {
+  console.info(result); // Outputs the chatbot's response
+});
+
+```
+
+### Example 2: Custom Weather Reporter
+
+**Description:** A chatbot that generates personalized weather reports based on the provided input data, such as location, temperature, and weather conditions. The responses are engaging and tailored for the user.
+
+-   **Name:** `weather-reporter`
+    
+-   **System Prompt:**  
+    `"You are a weather reporter chatbot. Based on the input data, generate a detailed and engaging weather report. Your response should include a friendly greeting, a brief overview of the current conditions, and a suggestion for the day. Keep your tone cheerful and informative."`
+    
+-   **Example Request:**  
+    `"Current datetime 12/7/2024, 12:00:01 PM. Weatherdata: Temperature 7°C, Humidity 87%, Cloudcover 93%, Airpressure 997mbar, Wind 23kmh, Rain 0mm."`
+    
+-   **Example Response:**  
+    `Hello there! 🌤️ Happy December 7th! As we step into the afternoon, the weather is quite cool at a temperature of 7°C. With a humidity level of 87%, it feels a bit damp out there, so don’t forget to grab your favorite cozy sweater if you’re heading outside! Cloud cover is fairly high today, sitting at 93%, which gives the sky a soft, overcast appearance. The air pressure is at 997 mbar, and while there’s a moderate wind blowing at 23 km/h, it might feel a tad brisk, so a light jacket would be a good call. The good news is that we haven’t seen any rain today, so if you’re planning to venture out, it’s a great time for a stroll or perhaps a warm drink at your favorite café! Stay warm and enjoy your day! ☕🌧️`
+    
+-   **Message History:** `5` (Allows for short-term context retention for related follow-up questions.)
+    
+-   **Temperature:** `0.7` (Ensures a mix of creativity and relevance for varied reports.)
+    
+
+----------
+
+### Script Integration Example
+
+To use this tool programmatically in ioBroker, you can integrate it via the `sendTo` function:
+
+```javascript
+var day =  new  Date().toLocaleString();
+var cloudCover = getState('daswetter.0.NextHours.Location_1.Day_1.current.clouds_value').val;
+var rlf = getState('daswetter.0.NextHours.Location_1.Day_1.current.humidity_value').val;
+var pressure = getState('daswetter.0.NextHours.Location_1.Day_1.current.pressure_value').val;
+var rain = getState('daswetter.0.NextHours.Location_1.Day_1.current.rain_value').val;
+var temp = getState('daswetter.0.NextHours.Location_1.Day_1.current.temp_value').val;
+var wind = getState('daswetter.0.NextHours.Location_1.Day_1.current.wind_value').val;
+
+var message =  'Current datetime '  + day +  '. Weatherdata: Temperature '  + temp +  '°C, '  +  'Humidity '  + rlf +  '%, '  +  'Cloudcover '  + cloudCover +  '%, '  +  'Airpressure '  + pressure +  'mbar, '  +  'Wind '  + wind +  'kmh, '  +  'Rain '  + rain +  'mm. ';
+
+sendTo('ai-toolbox.0',  'tool_request',  {
+	'tool':  'weather-reporter',
+	'text': message,
+},  async  (result)  =>  {
+	log(result);
+});
+
+```
+
+This chatbot example is perfect for providing users with personalized weather updates, blending utility with a friendly touch.
+
+
+### Example 3: Music Suggestion Assistant
 **Description:** Recommends music playlists based on the current weather and time of day. Can be used with a smart speaker like Alexa or Google Home.
 
 - **Name:** `music-recommender`
@@ -197,7 +315,7 @@ Here is an example of a tool that recommends light settings based on the current
 
 ---
 
-### Example 2: Light Settings Recommender
+### Example 4: Light Settings Recommender
 
 **Description:** Recommends RGB light settings based on the mood and genre of the currently playing music. The tool analyzes the music's characteristics (e.g., tempo, mood) and suggests appropriate lighting colors for five RGB lights. Outputs JSON with RGB hex values for each light.
 
@@ -246,17 +364,101 @@ Here is an example of a tool that recommends light settings based on the current
 To use this tool programmatically in ioBroker, you can integrate it via the `sendTo` function:
 
 ```javascript
-sendTo('ai-toolbox.0', 'send', {
+sendTo('ai-toolbox.0', 'tool_request', {
   tool: 'light-setter',
   text: 'Faithless - Insomnia',
 }, async (result) => {
   console.info(result); // Outputs the recommended RGB hex values for the lights
 });
 ```
-
-This tool can be further customized by adjusting parameters such as temperature or system prompts to fine-tune its behavior.
-
 ---
+
+## Best Practices: Maximizing the Potential of Your AI Tools
+
+To ensure you get the most out of the ioBroker AI Toolbox Adapter and its tools, here are some best practices, tips, and tricks:
+
+#### **1. Understand Key Concepts**
+
+-   **System Prompt**:  
+    The system prompt defines the behavior and style of your AI tool. Think of it as the "personality" or "guidelines" for the tool. For example, a system prompt for a weather bot might be:  
+    `"You are a cheerful weather assistant. Provide detailed weather forecasts in a friendly tone."`
+    
+-   **Temperature**:  
+    This setting adjusts how "creative" the responses are. Lower values (e.g., 0.2) make the tool more factual and deterministic, while higher values (e.g., 0.8) allow for more varied and creative outputs.
+    
+-   **Max Tokens**:  
+    Controls the length of responses. Set it high for verbose answers and low for concise outputs.
+    
+-   **Message History**:  
+    This allows tools to retain context for conversational continuity. Use a higher value (e.g., 10) for chatbots and a lower value (e.g., 0) for one-time responses to save tokens.
+    
+
+----------
+
+#### **2. Create Clear and Specific Tools**
+
+-   Use **specific system prompts** tailored to the tool’s purpose. A well-crafted system prompt ensures focused and relevant outputs.
+-   Provide **example requests and responses** to set clear expectations for the model. This helps in consistent behavior and better understanding.
+
+----------
+
+#### **3. Configure AI Providers Thoughtfully**
+
+Each provider offers unique strengths. Choose the model that aligns with your use case and experiment with various options to find the optimal fit. 
+
+----------
+
+#### **4. Balance Performance and Cost**
+
+-   Start with **free models** like `meta-llama` via OpenRouter to test ideas before scaling up to more powerful paid options.
+-   Use **token statistics** (available in `.statistics.tokens_input` and `.statistics.tokens_output`) to monitor usage and optimize tool configurations.
+
+----------
+
+#### **5. Utilize Dynamic and Reusable Components**
+
+-   **Dynamic System Prompts**: Adapt prompts based on real-time data. For example, pull live weather data to create personalized forecasts.
+    
+    ```javascript
+    sendTo('ai-toolbox.0', 'model_request', {
+        model: 'MODEL-NAME',
+        system_prompt: 'Current weather in {location} is {temperature}°C. Advise suitable outdoor activities.',
+        text: 'What should I do today?',
+    }, (result) => console.info(result.text));
+    
+    ```
+    
+-   **Script Integration**: Use JavaScript to dynamically adjust parameters like temperature or system prompts based on external inputs.
+
+----------
+
+#### **6. Test, Tweak, and Evolve**
+
+-   Use debugging logs to identify issues in tool performance.  
+    Set log level to `debug` in the ioBroker admin interface.
+-   Experiment with **different system prompts, temperature settings, and token limits** to optimize behavior.
+
+----------
+
+#### **7. Build Modular Solutions**
+
+-   Split complex tasks into smaller, reusable tools. For example, use one tool for analyzing data and another for generating reports. Combine these in your scripts for powerful workflows.
+
+----------
+
+#### **8. Manage Message History**
+
+-   For chat-based tools, maintain a manageable history length to provide context without excessive token usage.
+
+----------
+
+#### **9. Use JSON Outputs for Automation**
+
+For tools integrated into smart homes or scripts, configure the response format in JSON by providing the example response in the format you would like to receive.
+
+----------
+
+These best practices, combined with experimentation and iterative improvement, will ensure that your AI tools provide meaningful and reliable outcomes tailored to your smart home environment.
 
 
 ## Development
@@ -270,7 +472,11 @@ Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Changelog
-0.0.1 - 2024-01-01 (ToGe3688) initial release
+**0.0.2** - 2024-07-12 (ToGe3688) 
+* Added direct model requests, moved tools to separate objects, added statistics and request history
+
+**0.0.1** - 2024-05-12 (ToGe3688) 
+* initial release
 
 ## License
 MIT License

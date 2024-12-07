@@ -1,38 +1,6 @@
 {
   "type": "tabs",
   "items": {
-    "tab_1": {
-      "type": "panel",
-      "label": "Settings",
-      "items": {
-        "retry_delay": {
-          "type": "number",
-          "label": "Retry Delay",
-          "min": 15,
-          "max": 300,
-          "help": "Delay between tries to fulfill requests",
-          "default": 60,
-          "xs": 12,
-          "sm": 12,
-          "md": 6,
-          "lg": 4,
-          "xl":  4
-        },
-        "max_retries": {
-          "type": "number",
-          "label": "Maximum Retries",
-          "min": 0,
-          "max": 10,
-          "help": "Max number of tries to fulfill a request",
-          "default": 3,
-          "xs": 12,
-          "sm": 12,
-          "md": 6,
-          "lg": 4,
-          "xl": 4
-        }
-      }
-    },
     "tab_2": {
       "type": "panel",
       "label": "Tools",
@@ -212,6 +180,40 @@
               "max": 10000,
               "step": 1,
               "default": 2000
+            },
+            {
+              "type": "number",
+              "attr": "max_retries",
+              "xs": 12,
+              "sm": 4,
+              "md": 4,
+              "lg": 4,
+              "xl": 4,
+              "label": "Max. Retries",
+              "tooltip": "How many times should we retry if request to model fails",
+              "filter": false,
+              "sort": false,
+              "min": 0,
+              "max": 15,
+              "step": 1,
+              "default": 3
+            },
+            {
+              "type": "number",
+              "attr": "retry_delay",
+              "xs": 12,
+              "sm": 4,
+              "md": 4,
+              "lg": 4,
+              "xl": 4,
+              "label": "Retry Delay",
+              "tooltip": "How long to wait between retries",
+              "filter": false,
+              "sort": false,
+              "min": 0,
+              "max": 300,
+              "step": 1,
+              "default": 15
             }
           ]
         }
