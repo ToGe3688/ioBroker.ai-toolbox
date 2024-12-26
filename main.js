@@ -4,6 +4,8 @@
  * Created with @iobroker/create-adapter v2.6.5
  */
 const utils = require("@iobroker/adapter-core");
+const fs = require("fs");
+const mime = require("mime-types");
 const AnthropicAiProvider = require("./lib/anthropic-ai-provider");
 const OpenAiProvider = require("./lib/openai-ai-provider");
 const PerplexityAiProvider = require("./lib/perplexity-ai-provider");
@@ -1020,32 +1022,72 @@ class AiToolbox extends utils.Adapter {
 			this.log.warn("Empty or invalid URL for image fetch");
 			return responseObject;
 		}
-		const response = await fetch(url);
-		if (!response.ok) {
-			this.log.warn("Failed to fetch image from " + url + " with status: " + response.status);
-			return responseObject;
-		}
-		const mimeType = response.headers.get("content-type");
-		if (!mimeType || !mimeType.includes("image")) {
-			this.log.warn("Response from " + url + " is not an image, mimeType: " + mimeType);
-			return responseObject;
-		}
-		const buffer = await response.arrayBuffer();
-		if (!buffer) {
-			this.log.warn("Failed to fetch image from " + url + " as array buffer");
-			return responseObject;
-		}
-		const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
-		if (!base64) {
-			this.log.warn("Failed to fetch image from " + url + " as base64");
-			return responseObject;
-		}
-		if (mimeType && base64) {
-			this.log.info("Fetched image from " + url + " as base64, mimeType: " + mimeType);
-			responseObject.mimeType = mimeType;
-			responseObject.base64 = base64;
-			responseObject.base64withMime = `data:${mimeType};base64,${base64}`;
-			responseObject.success = true;
+
+		// Check if url or local file
+		if (url.startsWith("https://") || url.startsWith("http://")) {
+			this.log.debug("Fetching image from URL: " + url);
+			try {
+				const response = await fetch(url);
+				if (!response.ok) {
+					this.log.warn("Failed to fetch image from " + url + " with status: " + response.status);
+					return responseObject;
+				}
+				const mimeType = response.headers.get("content-type");
+				if (!mimeType || !mimeType.includes("image")) {
+					this.log.warn("Response from " + url + " is not an image, mimeType: " + mimeType);
+					return responseObject;
+				}
+				const buffer = await response.arrayBuffer();
+				if (!buffer) {
+					this.log.warn("Failed to fetch image from " + url + " as array buffer");
+					return responseObject;
+				}
+				const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+				if (!base64) {
+					this.log.warn("Failed to fetch image from " + url + " as base64");
+					return responseObject;
+				}
+				if (mimeType && base64) {
+					this.log.info("Fetched image from " + url + " as base64, mimeType: " + mimeType);
+					responseObject.mimeType = mimeType;
+					responseObject.base64 = base64;
+					responseObject.base64withMime = `data:${mimeType};base64,${base64}`;
+					responseObject.success = true;
+				}
+			} catch (e) {
+				this.log.error("Failed to fetch image from " + url + " with error: " + e);
+			}
+
+		} else {
+
+			// Read file from filesystem
+			try {
+				this.log.debug("Reading image file: " + url);
+				const file = fs.readFileSync(url);
+				if (!file) {
+					this.log.warn("Failed to read image file from " + url);
+					return responseObject;
+				}
+				const mimeType = mime.lookup(url);
+				if (!mimeType || !mimeType.includes("image")) {
+					this.log.warn("Response from " + url + " is not an image, mimeType: " + mimeType);
+					return responseObject;
+				}
+				const base64 = Buffer.from(file).toString("base64");
+				if (!base64) {
+					this.log.warn("Failed to read image file from " + url + " as base64");
+					return responseObject;
+				}
+				if (mimeType && base64) {
+					this.log.info("Read image file from " + url + " as base64, mimeType: " + mimeType);
+					responseObject.mimeType = mimeType;
+					responseObject.base64 = base64;
+					responseObject.base64withMime = `data:${mimeType};base64,${base64}`;
+					responseObject.success = true;
+				}
+			} catch (e) {
+				this.log.error("Failed to read image file from " + url + " with error: " + e);
+			}
 		}
 		return responseObject;
 	}

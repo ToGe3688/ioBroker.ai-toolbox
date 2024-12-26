@@ -120,8 +120,8 @@ Each tool appears in the ioBroker object tree. Use `Tools.$YourToolName.text_req
 
 #### Vision/Image Requests
 
-If you have enabled vision/image requests, you can use `Tools.$YourToolName.image_url` to set an image URL for the tool to analyze. The image will be send when you set the state of the `Tools.$YourToolName.text_request` datapoint. 
-Note: As the image gets converted to a base64 string you can also use a local file path that ioBroker can access.
+If you have enabled vision/image requests, you can use `Tools.$YourToolName.image_url` to set an image URL or local file path for the tool to analyze. The image will be send when you set the state of the `Tools.$YourToolName.text_request` datapoint. 
+Note: As the image gets converted to a base64 string you can also use a local url or file path that ioBroker can access.
 
 ### Script Integration (`sendTo`)
 
@@ -136,12 +136,23 @@ sendTo('ai-toolbox.0', 'tool_request', {
     console.info(result); // Outputs the tool's response as text string
 });
 ```
-#### Vision/Image Requests
+#### Vision/Image Requests with URL
 ```javascript
 sendTo('ai-toolbox.0', 'tool_request', {
     'tool': 'YOUR-TOOL-NAME',
     'text': 'The message for the tool to respond to',
     'image_url': 'https://url-of-the-image-to-analyze.com/image.jpg',
+}, async (result) => {
+    console.info(result); // Outputs the tool's response as text string
+});
+```
+
+#### Vision/Image Requests with Local File
+```javascript
+sendTo('ai-toolbox.0', 'tool_request', {
+    'tool': 'YOUR-TOOL-NAME',
+    'text': 'The message for the tool to respond to',
+    'image_url': '/opt/iobroker/iobroker-data/telegram_0/photo/2024-12-26_22-20-20_high.jpg',
 }, async (result) => {
     console.info(result); // Outputs the tool's response as text string
 });
@@ -528,6 +539,9 @@ Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Changelog
+**0.0.6** - 2024-26-12 (ToGe3688) 
+* Added support for local files for image analysis
+
 **0.0.4** - 2024-26-12 (ToGe3688) 
 * Added vision capabilities for tools
 * Improved admin ui

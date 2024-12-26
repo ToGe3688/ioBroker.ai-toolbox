@@ -1,8 +1,11 @@
 {
 	"common": {
 		"name": "ai-toolbox",
-		"version": "0.0.4",
+		"version": "0.0.6",
 		"news": {
+			"0.0.6": {
+				"en": "Added local file import for vision / image request"
+			},
 			"0.0.4": {
 				"en": "Added vision/image capability for tools, improved admin UI for tools"
 			},
