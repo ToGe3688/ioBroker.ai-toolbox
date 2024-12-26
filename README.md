@@ -22,6 +22,7 @@ The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart
 - Create custom AI tools for specific tasks
 - Chat history management for context retention.
 - Token usage and request history statistics.
+- Vision capabilities for image analysis.
 
 ## Supported Providers
 
@@ -64,6 +65,8 @@ Define custom AI tools tailored to specific tasks:
 | **Max. Tokens**       | Limits the response token count.                                                                                                               |
 | **Retry Delay**      | Delay between retry attempts if the request fails       |
 | **Maximum Retries**  | Maximum number of retries per request. |
+| **Enable Vision/Image requests**  | Enable vision/image input. |
+| **Include Vision Requests in chat history**  | Include vision/image data in chat history |
 ---
 
 ### LLM Providers
@@ -115,14 +118,30 @@ Configure each AI provider individually:
 
 Each tool appears in the ioBroker object tree. Use `Tools.$YourToolName.text_request` to send queries and `Tools.$YourToolName.text_response` to retrieve answers.
 
+#### Vision/Image Requests
+
+If you have enabled vision/image requests, you can use `Tools.$YourToolName.image_url` to set an image URL for the tool to analyze. The image will be send when you set the state of the `Tools.$YourToolName.text_request` datapoint. 
+Note: As the image gets converted to a base64 string you can also use a local file path that ioBroker can access.
+
 ### Script Integration (`sendTo`)
 
 You can interact programmatically using the `sendTo` function:
 
+#### Text Requests
 ```javascript
 sendTo('ai-toolbox.0', 'tool_request', {
     'tool': 'YOUR-TOOL-NAME',
     'text': 'The message for the tool to respond to',
+}, async (result) => {
+    console.info(result); // Outputs the tool's response as text string
+});
+```
+#### Vision/Image Requests
+```javascript
+sendTo('ai-toolbox.0', 'tool_request', {
+    'tool': 'YOUR-TOOL-NAME',
+    'text': 'The message for the tool to respond to',
+    'image_url': 'https://url-of-the-image-to-analyze.com/image.jpg',
 }, async (result) => {
     console.info(result); // Outputs the tool's response as text string
 });
@@ -145,6 +164,7 @@ sendTo('ai-toolbox.0', 'model_request', {
     'temperature': 'Temperature setting for your request'
     'max_tokens': 'Max number of tokens to generate'
     'text': 'The message for the tool to respond to',
+    'image_url': 'https://url-of-the-image-to-analyze.com/image.jpg',
 }, async (result) => {
     console.info(result.text); // Text response of the model
     console.info(result.model); // Used model for request
@@ -241,7 +261,48 @@ sendTo('ai-toolbox.0', 'tool_request', {
 
 ```
 
-### Example 2: Custom Weather Reporter
+### Example 2: Vision / Image Analyzer
+
+**Description:** A multimodal tool that analyses images and provides detailed descriptions or insights based on the visual content. The tool can identify objects, scenes, and other visual elements in the image.
+
+-   **Name:** `vision-analyzer`
+    
+-   **System Prompt:**  
+    `"You are a vision assistant. Analyze the provided image and generate a detailed description or insights based on the visual content. Your responses should be informative and engaging, focusing on key elements and context in the image."`
+    
+-   **Example Request:**  
+    `"What do you see in this image?"`
+    
+-   **Example Response:**  
+    `"This image shows a tall, columnar evergreen tree growing in a black nursery pot or container. It appears to be a cypress or juniper variety, with dense, dark green foliage that grows in a narrow, upright pyramidal shape. These types of trees are popular for landscaping, especially in formal gardens or as accent plants, and they can also be used to create natural privacy screens when planted in rows."`
+    
+-   **Message History:** `6` (Retains context for related image analysis questions.)
+    
+-   **Temperature:** `0.6` (Balances creativity and relevance for varied responses.)
+
+  - **Enable Vision/Image requests**  `true` (Enables the tool to accept image URLs for analysis.)
+
+  - **Include Vision Requests in chat history**  `true` (Includes image URLs in the chat history for context retention.)
+    
+
+----------
+
+### Script Integration Example
+
+To use this tool programmatically in ioBroker, you can integrate it via the `sendTo` function:
+
+```javascript
+sendTo('ai-toolbox.0', 'tool_request', {
+  tool: 'vision-analyzer',
+  text: 'What do you see in this image?',
+  image_url: 'https://url-of-the-image-to-analyze.com/image.jpg'
+}, async (result) => {
+  console.info(result); // Outputs the chatbot's response
+});
+
+```
+
+### Example 3: Custom Weather Reporter
 
 **Description:** A chatbot that generates personalized weather reports based on the provided input data, such as location, temperature, and weather conditions. The responses are engaging and tailored for the user.
 
@@ -287,10 +348,7 @@ sendTo('ai-toolbox.0',  'tool_request',  {
 
 ```
 
-This chatbot example is perfect for providing users with personalized weather updates, blending utility with a friendly touch.
-
-
-### Example 3: Music Suggestion Assistant
+### Example 4: Music Suggestion Assistant
 **Description:** Recommends music playlists based on the current weather and time of day. Can be used with a smart speaker like Alexa or Google Home.
 
 - **Name:** `music-recommender`
@@ -311,11 +369,9 @@ This chatbot example is perfect for providing users with personalized weather up
 | `Current time 4th February 2024 20:00. Outside Temperature: 5°C` | `Jazz Music`  |
 | `Current time 11th November 2024 12:00. Outside Temperature: 15°C` | `Acoustic Guitar Music`  |
 
-Here is an example of a tool that recommends light settings based on the current playing music and outputs JSON with RGB hex values for five different RGB lights:
-
 ---
 
-### Example 4: Light Settings Recommender
+### Example 5: Light Settings Recommender
 
 **Description:** Recommends RGB light settings based on the mood and genre of the currently playing music. The tool analyzes the music's characteristics (e.g., tempo, mood) and suggests appropriate lighting colors for five RGB lights. Outputs JSON with RGB hex values for each light.
 
@@ -472,6 +528,13 @@ Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Changelog
+**0.0.4** - 2024-26-12 (ToGe3688) 
+* Added vision capabilities for tools
+* Improved admin ui
+
+**0.0.3** - 2024-25-12 (ToGe3688) 
+* Fixed a bug with the OpenAI API Provider
+
 **0.0.2** - 2024-07-12 (ToGe3688) 
 * Added direct model requests, moved tools to separate objects, added statistics and request history
 

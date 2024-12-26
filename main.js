@@ -247,6 +247,22 @@ class AiToolbox extends utils.Adapter {
 				native: bot,
 			});
 
+			if (typeof bot.use_vision !== "undefined" && bot.use_vision) {
+				await this.setObjectAsync("Tools." + bot.bot_name + ".image_url", {
+					type: "state",
+					common: {
+						name: "Image URL",
+						description: "URL of an image to send with the next text request",
+						type: "string",
+						role: "text",
+						read: true,
+						write: true,
+						def: ""
+					},
+					native: {}
+				});
+			}
+
 			await this.setObjectAsync("Tools." + bot.bot_name + ".text_request", {
 				type: "state",
 				common: {
@@ -481,7 +497,25 @@ class AiToolbox extends utils.Adapter {
 			if (id.includes("Tools.") && id.includes(".text_request") && state.val) {
 				const bot = await this.getObjectAsync(id);
 				if (bot) {
-					this.startBotRequest(bot.native, state.val);
+					if (bot.native.use_vision) {
+						const imageUrl = await this.getStateAsync("Tools." + bot.native.bot_name + ".image_url");
+						if (imageUrl && imageUrl.val && imageUrl.val != "") {
+							const imageData = await this.fetchImageAsBase64(imageUrl.val);
+							if (imageData.success) {
+								await this.setStateAsync("Tools." + bot.native.bot_name + ".image_url", { val: "", ack: true });
+								this.startBotRequest(bot.native, state.val, imageData);
+							} else {
+								this.log.warn("Request stopped, image fetch failed for tool " + bot.native.bot_name + " URL: " + imageUrl.val);
+								await this.setStateAsync("Tools." + bot.native.bot_name + ".request.state", { val: "error", ack: true });
+								await this.setStateAsync("Tools." + bot.native.bot_name + ".response.error", { val: "fetching image for request failed", ack: true });
+								await this.setStateAsync("Tools." + bot.native.bot_name + ".image_url", { val: "", ack: true });
+							}
+						} else {
+							this.startBotRequest(bot.native, state.val, null);
+						}
+					} else {
+						this.startBotRequest(bot.native, state.val, null);
+					}
 				}
 			}
 
@@ -507,12 +541,12 @@ class AiToolbox extends utils.Adapter {
 	 * @param {number} tries - The number of tries for the request.
 	 * @param {boolean} try_only_once - If true, the request will only be tried once.
 	 */
-	async startBotRequest(bot, text, tries = 1, try_only_once = false) {
+	async startBotRequest(bot, text, image = null, tries = 0, try_only_once = false) {
 
 		bot.bot_name = this.stringToAlphaNumeric(bot.bot_name);
 
 		this.log.info("Starting request for tool: " + bot.bot_name + " Text: " + text);
-		if (tries == 1) {
+		if (tries == 0) {
 			await this.setStateAsync("Tools." +bot.bot_name + ".request.state", { val: "start", ack: true });
 		}
 		await this.setStateAsync("Tools." +bot.bot_name + ".response.error", { val: "", ack: true });
@@ -543,12 +577,22 @@ class AiToolbox extends utils.Adapter {
 
 			this.log.debug("Converting message pairs to chat format for request to model");
 			for (const message of messagePairs.messages) {
-				messages.push({ role: "user", content: message.user });
+				if (typeof message.image !== "undefined" && message.image != null) {
+					this.log.debug("Tool " + bot.bot_name + " image message detected in chat history message, adding image data");
+					messages.push({ role: "user", content: message.user, image: message.image});
+				} else {
+					messages.push({ role: "user", content: message.user });
+				}
 				messages.push({ role: "assistant", content: message.assistant });
 			}
 
 			this.log.debug("Adding user message to request array: " + text);
-			messages.push({ role: "user", content: text });
+			if (image) {
+				this.log.debug("Tool " + bot.bot_name + " image request detected, adding image data");
+				messages.push({ role: "user", content: text, image: image });
+			} else {
+				messages.push({ role: "user", content: text });
+			}
 
 			const modelResponse = await this.startModelRequest(bot.bot_model, messages, bot.bot_system_prompt, bot.max_tokens, bot.temperature);
 
@@ -570,19 +614,19 @@ class AiToolbox extends utils.Adapter {
 			}
 
 			if (!requestCompleted) {
-				if (!bot.retry_delay) { bot.retry_delay = 15; }
-				if (!bot.max_retries) { bot.max_retries = 3; }
+				if (typeof bot.retry_delay == "undefined") { bot.retry_delay = 15; }
+				if (typeof bot.max_retries == "undefined") { bot.max_retries = 3; }
 				await this.setStateAsync("Tools." + bot.bot_name + ".request.state", { val: "retry", ack: true });
-				if (tries <= bot.max_retries && !try_only_once) {
+				if (tries < bot.max_retries && !try_only_once) {
 					let retry_delay = bot.retry_delay * 1000;
 					if (tries == bot.max_retries) {
 						retry_delay = 0;
 					}
-					this.log.debug("Try " + tries + "/" + bot.max_retries + " of request for tool " + bot.bot_name + " failed Text: " + text);
+					this.log.debug("Try " + tries+1 + "/" + bot.max_retries + " of request for tool " + bot.bot_name + " failed Text: " + text);
 					tries = tries + 1;
 					this.log.debug("Retry request for tool " + bot.bot_name + " in " + bot.retry_delay + " seconds Text: " + text);
 					this.timeouts.push(setTimeout((bot, tries) => {
-						this.startBotRequest(bot, text, tries);
+						this.startBotRequest(bot, text, image, tries);
 					}, retry_delay, bot, tries));
 				} else {
 					this.log.error("Request for tool " + bot.bot_name + " failed after " + bot.max_retries + " tries Text: " + text);
@@ -591,7 +635,7 @@ class AiToolbox extends utils.Adapter {
 				}
 			} else {
 				this.log.info("Request for tool " + bot.bot_name + " successful Text: " + text + " Response: " + modelResponse.text);
-				await this.addMessagePairToHistory(bot, text, modelResponse.text, modelResponse.tokens_input, modelResponse.tokens_output, modelResponse.model);
+				await this.addMessagePairToHistory(bot, text, image, modelResponse.text, modelResponse.tokens_input, modelResponse.tokens_output, modelResponse.model);
 				return modelResponse;
 			}
 		}
@@ -725,7 +769,14 @@ class AiToolbox extends utils.Adapter {
 
 			if (messagesData && messagesData.messages && messagesData.messages.length > 0) {
 				for (const message of messagesData.messages) {
-					validatedObject.messages.push(message);
+					if (typeof bot.include_vision_in_history !== "undefined" && bot.include_vision_in_history) {
+						validatedObject.messages.push(message);
+					} else {
+						if (message.image) {
+							delete message.image;
+						}
+						validatedObject.messages.push(message);
+					}
 				}
 			}
 			this.log.debug("Validated object: " + JSON.stringify(validatedObject));
@@ -748,7 +799,7 @@ class AiToolbox extends utils.Adapter {
 	 * @param {number} tokens_output - The number of output tokens used in the response.
 	 * @returns {Promise<boolean>} - Returns true if the message pair was added successfully, otherwise false.
 	 * */
-	async addMessagePairToHistory(bot, user, assistant, tokens_input, tokens_output, model) {
+	async addMessagePairToHistory(bot, user, image, assistant, tokens_input, tokens_output, model) {
 		if (bot.chat_history > 0) {
 
 			bot.bot_name = this.stringToAlphaNumeric(bot.bot_name);
@@ -758,6 +809,7 @@ class AiToolbox extends utils.Adapter {
 			messagesData.messages.push({
 				user: user,
 				assistant: assistant,
+				image: image,
 				timestamp: Date.now(),
 				model: model,
 				tokens_input: tokens_input,
@@ -957,6 +1009,48 @@ class AiToolbox extends utils.Adapter {
 		return null;
 	}
 
+	/**
+	 * Fetches an image from the specified URL and returns it as a base64 string.
+	 * @param {string} url - The URL of the image to fetch.
+	 * @returns {Promise<{mimeType: string, base64: string, base64withMime: string, success: boolean}>} - The fetched image as a base64 string
+	 * */
+	async fetchImageAsBase64(url) {
+		const responseObject = { mimeType: "", base64: "", base64withMime: "", url: url, success: false };
+		if (!url || url.trim() == "") {
+			this.log.warn("Empty or invalid URL for image fetch");
+			return responseObject;
+		}
+		const response = await fetch(url);
+		if (!response.ok) {
+			this.log.warn("Failed to fetch image from " + url + " with status: " + response.status);
+			return responseObject;
+		}
+		const mimeType = response.headers.get("content-type");
+		if (!mimeType || !mimeType.includes("image")) {
+			this.log.warn("Response from " + url + " is not an image, mimeType: " + mimeType);
+			return responseObject;
+		}
+		const buffer = await response.arrayBuffer();
+		if (!buffer) {
+			this.log.warn("Failed to fetch image from " + url + " as array buffer");
+			return responseObject;
+		}
+		const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+		if (!base64) {
+			this.log.warn("Failed to fetch image from " + url + " as base64");
+			return responseObject;
+		}
+		if (mimeType && base64) {
+			this.log.info("Fetched image from " + url + " as base64, mimeType: " + mimeType);
+			responseObject.mimeType = mimeType;
+			responseObject.base64 = base64;
+			responseObject.base64withMime = `data:${mimeType};base64,${base64}`;
+			responseObject.success = true;
+		}
+		return responseObject;
+	}
+
+
 	// /**
 	//  * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
 	//  * Using this method requires "common.messagebox" property to be set to true in io-package.json
@@ -982,10 +1076,23 @@ class AiToolbox extends utils.Adapter {
 
 						this.log.debug("SendTo request for tool: " + botName + " with Text: " + obj.message.text);
 
-						const response = await this.startBotRequest(bot, obj.message.text, 1, true);
+						let image = null;
+						if (obj.message.image_url && obj.message.image_url.trim() != "") {
+							const imageData = await this.fetchImageAsBase64(obj.message.image_url);
+							if (imageData.success) {
+								image = imageData;
+							} else {
+								this.log.warn("Request stopped, image fetch failed for tool " + botName + " URL: " + obj.message.image_url);
+								if (obj.callback) this.sendTo(obj.from, obj.command, false, obj.callback);
+								return;
+							}
+						}
+
+						const response = await this.startBotRequest(bot, obj.message.text, image, 1, true);
 
 						if (!response.text || response.text.trim() == "") {
 							this.log.warn("No response from tool " + bot.bot_name + " for request via sendTo");
+							if (obj.callback) this.sendTo(obj.from, obj.command, false, obj.callback);
 							return;
 						}
 
@@ -1002,11 +1109,37 @@ class AiToolbox extends utils.Adapter {
 			if (obj.command === "model_request") {
 
 				this.log.debug("Model request via message box");
+				let messages = [];
 
-				if (!obj.message.model || !obj.message.text || obj.message.text.trim() == "") {
-					this.log.warn("Missing or empty parameters for tool request via message box");
-					if (obj.callback) this.sendTo(obj.from, obj.command, false, obj.callback);
-					return;
+				if (!obj.message.messages) {
+
+					if (!obj.message.model || !obj.message.text || obj.message.text.trim() == "") {
+						this.log.warn("Missing or empty parameters for tool request via message box");
+						if (obj.callback) this.sendTo(obj.from, obj.command, false, obj.callback);
+						return;
+					}
+
+					if (obj.message.image_url && obj.message.image_url.trim() != "") {
+						const imageData = await this.fetchImageAsBase64(obj.message.image_url);
+						if (!imageData.success) {
+							this.log.warn("Request stopped, image fetch failed for URL: " + obj.message.image_url);
+							if (obj.callback) this.sendTo(obj.from, obj.command, false, obj.callback);
+							return;
+						}
+						messages = [{ role: "user", content: obj.message.text, image: imageData }];
+					} else {
+						messages = [{ role: "user", content: obj.message.text }];
+					}
+
+				} else {
+
+					if (!obj.message.model) {
+						this.log.warn("Missing or empty parameters for tool request via message box");
+						if (obj.callback) this.sendTo(obj.from, obj.command, false, obj.callback);
+						return;
+					}
+					messages = obj.message.messages;
+
 				}
 
 				const models = this.getAvailableModels();
@@ -1039,9 +1172,9 @@ class AiToolbox extends utils.Adapter {
 					obj.message.max_tokens = 2000;
 				}
 
-				const response = await this.startModelRequest(foundModel,  [{ role: "user", content: obj.message.text }], obj.message.system_prompt, obj.message.max_tokens, obj.message.temperature);
+				const response = await this.startModelRequest(foundModel, messages, obj.message.system_prompt, obj.message.max_tokens, obj.message.temperature);
 
-				if (!response.text || response.text.trim() == "") {
+				if (!response || !response.text || response.text.trim() == "") {
 					this.log.warn("No response from model " + foundModel + " for request via sendTo");
 					if (obj.callback) this.sendTo(obj.from, obj.command, false, obj.callback);
 					return;

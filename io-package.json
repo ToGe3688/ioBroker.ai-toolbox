@@ -1,8 +1,14 @@
 {
 	"common": {
 		"name": "ai-toolbox",
-		"version": "0.0.2",
+		"version": "0.0.4",
 		"news": {
+			"0.0.4": {
+				"en": "Added vision/image capability for tools, improved admin UI for tools"
+			},
+			"0.0.3": {
+				"en": "Fixed a bug in the Open AI Provider"
+			},
 			"0.0.2": {
 				"en": "Fixed issues and added direct model requests"
 			},
@@ -108,7 +114,9 @@
 				"max_tokens": 3000,
 				"chat_history": 10,
 				"retry_delay": 30,
-				"max_retries": 3
+				"max_retries": 3,
+				"use_vision": false,
+				"include_vision_in_history": false
 			},
 			{
 				"bot_name": "weather-reporter",
@@ -120,7 +128,9 @@
 				"max_tokens": 2000,
 				"chat_history": 5,
 				"retry_delay": 30,
-				"max_retries": 3
+				"max_retries": 3,
+				"use_vision": false,
+				"include_vision_in_history": false
 			},
 			{
 				"bot_name": "music-recommender",
@@ -132,7 +142,9 @@
 				"max_tokens": 2000,
 				"chat_history": 7,
 				"retry_delay": 30,
-				"max_retries": 3
+				"max_retries": 3,
+				"use_vision": false,
+				"include_vision_in_history": false
 			},
 			{
 				"bot_name": "light-setter",
@@ -144,7 +156,23 @@
 				"max_tokens": 2000,
 				"chat_history": 0,
 				"retry_delay": 30,
-				"max_retries": 3
+				"max_retries": 3,
+				"use_vision": false,
+				"include_vision_in_history": false
+			},
+			{
+				"bot_name": "image-analyzer",
+				"bot_model": "claude-3-5-sonnet-latest",
+				"bot_system_prompt": "You are a smart assistant that analyzes images and outputs detailed descriptions of what he sees.",
+				"bot_example_request": "What do you see in this image?",
+				"bot_example_response": "This image shows a tall, columnar evergreen tree growing in a black nursery pot or container. It appears to be a cypress or juniper variety, with dense, dark green foliage that grows in a narrow, upright pyramidal shape. These types of trees are popular for landscaping, especially in formal gardens or as accent plants, and they can also be used to create natural privacy screens when planted in rows. The tree looks healthy and well-maintained, with consistent coloring throughout its foliage.",
+				"temperature": 0.6,
+				"max_tokens": 2000,
+				"chat_history": 6,
+				"retry_delay": 30,
+				"max_retries": 3,
+				"use_vision": true,
+				"include_vision_in_history": false
 			}
 		],
 		"anth_models": [

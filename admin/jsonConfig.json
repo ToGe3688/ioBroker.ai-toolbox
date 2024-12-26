@@ -5,7 +5,6 @@
       "type": "panel",
       "label": "Tools",
       "items": {
-
         "bot_name_unique_error": {
           "type": "staticText",
           "text": "ERROR: column 'Name' must contain unique text",
@@ -22,7 +21,6 @@
           "lg": 6,
           "xl": 6
         },
-
         "bot_name_invalid_error": {
           "type": "staticText",
           "text": "ERROR: column 'Name' must contain characters A-Za-z0-9 and _ only and must not start with an _",
@@ -39,7 +37,6 @@
           "lg": 6,
           "xl": 6
         },
-
         "bots": {
           "type": "accordion",
           "newLine": true,
@@ -53,11 +50,32 @@
           "titleAttr": "bot_name",
           "items": [
             {
+              "attr": "tool_header",
+              "type": "header",
+              "text": "Tool Settings",
+              "size": 3,
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
+              "attr": "tool_description",
+              "type": "staticText",
+              "text": "Choose a name for your AI tool and select an appropriate model to process requests.",
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
               "type": "text",
               "attr": "bot_name",
-              "xs": 6,
-              "sm": 6,
-              "md": 6,
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
               "lg": 6,
               "xl": 6,
               "label": "Name",
@@ -67,9 +85,9 @@
             },
             {
               "attr": "bot_model",
-              "xs": 6,
-              "sm": 6,
-              "md": 6,
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
               "lg": 6,
               "xl": 6,
               "type": "selectSendTo",
@@ -78,6 +96,36 @@
               "label": "Model",
               "width": "10% ",
               "tooltip": "Which Model should be used for this tool"
+            },
+            {
+              "attr": "prompt_divider",
+              "type": "divider",
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
+              "attr": "prompt_header",
+              "type": "header",
+              "text": "Prompt Settings",
+              "size": 3,
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
+              "attr": "prompt_description",
+              "type": "staticText",
+              "text": "Create specific, detailed prompts for better results. If you're new to prompt engineering, consider reviewing prompt design tutorials and best practices.",
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
             },
             {
               "type": "text",
@@ -131,6 +179,27 @@
               "maxLength": 2000
             },
             {
+              "attr": "parameter_header",
+              "type": "header",
+              "text": "Tool parameters",
+              "size": 3,
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
+              "attr": "parameter_description",
+              "type": "staticText",
+              "text": "Configure these key parameters:\n- Message History: Number of previous messages to include for context\n- Temperature: Controls output creativity/randomness (0-1)\n- Maximum Tokens: Limits the length of the model's response",
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
               "type": "number",
               "attr": "chat_history",
               "xs": 12,
@@ -138,7 +207,7 @@
               "md": 4,
               "lg": 4,
               "xl": 4,
-              "label": "Message History (Chat Mode)",
+              "label": "Message History",
               "tooltip": "If greater 0 previous messages will be included in the request so the tool will stay in context",
               "filter": false,
               "sort": false,
@@ -156,7 +225,7 @@
               "lg": 4,
               "xl": 4,
               "label": "Temperature",
-              "tooltip": "Setting for creativity/consistency of the models response. (Leave at default if you are not sure!=",
+              "tooltip": "Setting for creativity/consistency of the model's response. (Leave at default if you are not sure!)",
               "filter": false,
               "sort": false,
               "min": 0,
@@ -180,6 +249,27 @@
               "max": 10000,
               "step": 1,
               "default": 2000
+            },
+            {
+              "attr": "request_header",
+              "type": "header",
+              "text": "Request Settings",
+              "size": 3,
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
+              "attr": "request_description",
+              "type": "staticText",
+              "text": "Configure retry behavior for failed requests, including maximum attempts and delay between retries.",
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
             },
             {
               "type": "number",
@@ -206,7 +296,7 @@
               "md": 4,
               "lg": 4,
               "xl": 4,
-              "label": "Retry Delay",
+              "label": "Retry Delay in Seconds",
               "tooltip": "How long to wait between retries",
               "filter": false,
               "sort": false,
@@ -214,6 +304,75 @@
               "max": 300,
               "step": 1,
               "default": 15
+            },
+            {
+              "attr": "multimodality_header",
+              "type": "header",
+              "text": "Multimodality",
+              "size": 3,
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
+              "attr": "multimodality_description",
+              "type": "staticText",
+              "text": "Enable multimodal capabilities for your tool. Ensure you select a model that supports multimodal requests to avoid errors or unexpected behavior.",
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
+              "type": "checkbox",
+              "attr": "use_vision",
+              "xs": 12,
+              "sm": 4,
+              "md": 4,
+              "lg": 4,
+              "xl": 4,
+              "label": "Enable Vision/Image requests",
+              "tooltip": "Enable vision/image requests for this tool, used model MUST support Vision or requests will fail!",
+              "filter": false,
+              "sort": false,
+              "default": false
+            },
+            {
+              "attr": "vision_description",
+              "type": "staticText",
+              "text": "When enabled, a .image_url state will be created. Including an image URL in this state along with your text request will send both to the model for processing.",
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
+            },
+            {
+              "type": "checkbox",
+              "attr": "include_vision_in_history",
+              "xs": 12,
+              "sm": 4,
+              "md": 4,
+              "lg": 4,
+              "xl": 4,
+              "label": "Include Vision Requests in chat history",
+              "tooltip": "Select if vision request should be included in the chat history",
+              "filter": false,
+              "sort": false,
+              "default": false
+            },
+            {
+              "attr": "vision_history_description",
+              "type": "staticText",
+              "text": "Note: Including vision requests in chat history can significantly increase token usage and associated costs due to the size of image data.",
+              "xs": 12,
+              "sm": 12,
+              "md": 12,
+              "lg": 12,
+              "xl": 12
             }
           ]
         }
@@ -486,7 +645,7 @@
           "sm": 12,
           "md": 6,
           "lg": 4,
-          "xl":  4
+          "xl": 4
         },
         "model_name_unique_error": {
           "type": "staticText",
