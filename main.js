@@ -561,18 +561,18 @@ class AiToolbox extends utils.Adapter {
 			const messages = [];
 			let messagePairs = { messages: [] };
 
+			if (bot.chat_history > 0) {
+				this.log.debug("Chat history is enabled for tool " + bot.bot_name);
+				messagePairs = await this.getValidatedMessageHistory(bot);
+				this.log.debug("Adding previous message pairs for request: " + JSON.stringify(messagePairs));
+			}
+
 			if (bot.bot_example_request &&
 				bot.bot_example_request != "" &&
 				bot.bot_example_response &&
 				bot.bot_example_response != "") {
 				messagePairs.messages.unshift({ user: bot.bot_example_request, assistant: bot.bot_example_response });
 				this.log.debug("Adding tool example message pair for request: " + JSON.stringify(messagePairs));
-			}
-
-			if (bot.chat_history > 0) {
-				this.log.debug("Chat history is enabled for tool " + bot.bot_name);
-				messagePairs = await this.getValidatedMessageHistory(bot);
-				this.log.debug("Adding previous message pairs for request: " + JSON.stringify(messagePairs));
 			}
 
 			this.log.debug("Converting message pairs to chat format for request to model");
