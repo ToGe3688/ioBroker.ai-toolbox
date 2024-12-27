@@ -1,272 +1,272 @@
 {
-	"common": {
-		"name": "ai-toolbox",
-		"version": "0.0.6",
-		"news": {
-			"0.0.6": {
-				"en": "Added local file import for vision / image request"
-			},
-			"0.0.4": {
-				"en": "Added vision/image capability for tools, improved admin UI for tools"
-			},
-			"0.0.3": {
-				"en": "Fixed a bug in the Open AI Provider"
-			},
-			"0.0.2": {
-				"en": "Fixed issues and added direct model requests"
-			},
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"uk": "Початкова версія",
-				"zh-cn": "首次出版"
-			}
-		},
-		"titleLang": {
-			"en": "A.I. Toolbox",
-			"de": "K.I. Werkzeugkasten",
-			"ru": "А.И. Ящик для инструментов",
-			"pt": "IA Caixa de ferramentas",
-			"nl": "AI Gereedschapskist",
-			"fr": "I.A. Boîte à outils",
-			"it": "A.I. Cassetta degli attrezzi",
-			"es": "AI. Caja de instrumento",
-			"pl": "sztuczna inteligencja Skrzynka narzędziowa",
-			"uk": "А.І. Ящик інструментів",
-			"zh-cn": "人工智能。工具箱"
-		},
-		"desc": {
-			"en": "The ioBroker AI Toolbox Adapter is a powerful integration that enables users to create and manage custom AI tools within their ioBroker smart home environment. This versatile adapter supports multiple Large Language Models (LLMs) and provides a flexible framework for AI-based automation and interaction.",
-			"de": "Der ioBroker AI Toolbox-Adapter ist eine leistungsstarke Integration, die es Benutzern ermöglicht, benutzerdefinierte KI-Tools innerhalb ihrer ioBroker-Smart-Home-Umgebung zu erstellen und zu verwalten. Dieser vielseitige Adapter unterstützt mehrere Large Language Models (LLMs) und bietet ein flexibles Framework für KI-basierte Automatisierung und Interaktion.",
-			"ru": "Адаптер ioBroker AI Toolbox — это мощная интеграция, которая позволяет пользователям создавать собственные инструменты искусственного интеллекта и управлять ими в среде умного дома ioBroker. Этот универсальный адаптер поддерживает несколько моделей больших языков (LLM) и обеспечивает гибкую основу для автоматизации и взаимодействия на основе искусственного интеллекта.",
-			"pt": "O adaptador ioBroker AI Toolbox é uma integração poderosa que permite aos usuários criar e gerenciar ferramentas de IA personalizadas em seu ambiente doméstico inteligente ioBroker. Este adaptador versátil oferece suporte a vários modelos de linguagem grande (LLMs) e fornece uma estrutura flexível para automação e interação baseadas em IA.",
-			"nl": "De ioBroker AI Toolbox Adapter is een krachtige integratie waarmee gebruikers aangepaste AI-tools kunnen creëren en beheren binnen hun ioBroker smart home-omgeving. Deze veelzijdige adapter ondersteunt meerdere Large Language Models (LLM's) en biedt een flexibel raamwerk voor op AI gebaseerde automatisering en interactie.",
-			"fr": "L'adaptateur ioBroker AI Toolbox est une intégration puissante qui permet aux utilisateurs de créer et de gérer des outils d'IA personnalisés dans leur environnement de maison intelligente ioBroker. Cet adaptateur polyvalent prend en charge plusieurs grands modèles de langage (LLM) et fournit un cadre flexible pour l'automatisation et l'interaction basées sur l'IA.",
-			"it": "L'adattatore AI Toolbox ioBroker è una potente integrazione che consente agli utenti di creare e gestire strumenti AI personalizzati all'interno del loro ambiente di casa intelligente ioBroker. Questo versatile adattatore supporta più Large Language Models (LLM) e fornisce un framework flessibile per l'automazione e l'interazione basate sull'intelligenza artificiale.",
-			"es": "El adaptador ioBroker AI Toolbox es una poderosa integración que permite a los usuarios crear y administrar herramientas de IA personalizadas dentro de su entorno doméstico inteligente ioBroker. Este adaptador versátil admite múltiples modelos de lenguajes grandes (LLM) y proporciona un marco flexible para la automatización e interacción basadas en IA.",
-			"pl": "Adapter ioBroker AI Toolbox to potężna integracja, która umożliwia użytkownikom tworzenie niestandardowych narzędzi AI i zarządzanie nimi w inteligentnym środowisku domowym ioBroker. Ten wszechstronny adapter obsługuje wiele modeli dużych języków (LLM) i zapewnia elastyczną platformę dla automatyzacji i interakcji opartej na sztucznej inteligencji.",
-			"uk": "Адаптер ioBroker AI Toolbox Adapter — це потужна інтеграція, яка дозволяє користувачам створювати спеціальні інструменти AI і керувати ними в середовищі розумного дому ioBroker. Цей універсальний адаптер підтримує кілька великих мовних моделей (LLM) і забезпечує гнучку структуру для автоматизації та взаємодії на основі ШІ.",
-			"zh-cn": "ioBroker AI Toolbox 适配器是一个功能强大的集成，使用户能够在其 ioBroker 智能家居环境中创建和管理自定义 AI 工具。这款多功能适配器支持多种大型语言模型 (LLM)，并为基于 AI 的自动化和交互提供灵活的框架。"
-		},
-		"authors": [
-			"ToGe3688 <toge3688@gmail.com>"
-		],
-		"keywords": [
-			"AI",
-			"KI",
-			"OpenAI",
-			"ChatGPT",
-			"Anthropic",
-			"Openrouter",
-			"Perplexity",
-			"LM Studio",
-			"Chatbot",
-			"Bot"
-		],
-		"licenseInformation": {
-			"type": "free",
-			"license": "MIT"
-		},
-		"platform": "Javascript/Node.js",
-		"icon": "ai-toolbox.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/ToGe3688/ioBroker.ai-toolbox/main/admin/ai-toolbox.png",
-		"readme": "https://github.com/ToGe3688/ioBroker.ai-toolbox/blob/main/README.md",
-		"loglevel": "info",
-		"tier": 3,
-		"mode": "daemon",
-		"type": "logic",
-		"compact": true,
-		"connectionType": "cloud",
-		"dataSource": "push",
-		"messagebox": true,
-		"supportedMessages": {
-			"custom": true,
-			"notifications": true
-		},
-		"adminUI": {
-			"config": "json"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=6.0.11"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=6.17.1"
-			}
-		]
-	},
-	"native": {
-		"bots": [
-			{
-				"bot_name": "simple-chatbot",
-				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
-				"bot_system_prompt": "You are a friendly and conversational chatbot. Respond to user messages in an engaging and cheerful way. Keep your answers brief and focus on maintaining a pleasant tone.",
-				"bot_example_request": "Hi there! How are you today?",
-				"bot_example_response": "I'm doing great, thanks for asking! How about you?",
-				"temperature": 0.8,
-				"max_tokens": 3000,
-				"chat_history": 10,
-				"retry_delay": 30,
-				"max_retries": 3,
-				"use_vision": false,
-				"include_vision_in_history": false
-			},
-			{
-				"bot_name": "weather-reporter",
-				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
-				"bot_system_prompt": "You are a weather reporter chatbot. Based on the input data, generate a detailed and engaging weather report. Your response should include a friendly greeting, a brief overview of the current conditions, and a suggestion for the day. Keep your tone cheerful and informative.",
-				"bot_example_request": "Current datetime 12/7/2024, 12:00:01 PM. Weatherdata: Temperature 7°C, Humidity 87%, Cloudcover 93%, Airpressure 997mbar, Wind 23kmh, Rain 0mm.",
-				"bot_example_response": "Hello there! 🌤️ Happy December 7th! As we step into the afternoon, the weather is quite cool at a temperature of 7°C. With a humidity level of 87%, it feels a bit damp out there, so don’t forget to grab your favorite cozy sweater if you’re heading outside! Cloud cover is fairly high today, sitting at 93%, which gives the sky a soft, overcast appearance. The air pressure is at 997 mbar, and while there’s a moderate wind blowing at 23 km/h, it might feel a tad brisk, so a light jacket would be a good call. The good news is that we haven’t seen any rain today, so if you’re planning to venture out, it’s a great time for a stroll or perhaps a warm drink at your favorite café! Stay warm and enjoy your day! ☕🌧️",
-				"temperature": 0.7,
-				"max_tokens": 2000,
-				"chat_history": 5,
-				"retry_delay": 30,
-				"max_retries": 3,
-				"use_vision": false,
-				"include_vision_in_history": false
-			},
-			{
-				"bot_name": "music-recommender",
-				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
-				"bot_system_prompt": "You are a music assistant. Based on the current weather and time of day, suggest a playlist or genre that matches the mood. Use concise and creative recommendations. You answer only with your suggestion and nothing else.",
-				"bot_example_request": "Current Time 24th December 2024 17:30. Outside Temperature: 10°C.",
-				"bot_example_response": "Christmas Music",
-				"temperature": 0.7,
-				"max_tokens": 2000,
-				"chat_history": 7,
-				"retry_delay": 30,
-				"max_retries": 3,
-				"use_vision": false,
-				"include_vision_in_history": false
-			},
-			{
-				"bot_name": "light-setter",
-				"bot_model": "meta-llama/llama-3.2-3b-instruct:free",
-				"bot_system_prompt": "You are a smart home assistant. Based on the characteristics of the currently playing music, recommend RGB hex color values for five different lights to create an immersive atmosphere. Respond only with a JSON object containing the RGB hex values for each light.",
-				"bot_example_request": "Faithless - Insomnia",
-				"bot_example_response": "{\"light1\": \"#FF4500\",\"light2\": \"#FFA500\",\"light3\": \"#FFFF00\",\"light4\": \"#ADFF2F\",\"light5\": \"#00FF00\"}",
-				"temperature": 0.6,
-				"max_tokens": 2000,
-				"chat_history": 0,
-				"retry_delay": 30,
-				"max_retries": 3,
-				"use_vision": false,
-				"include_vision_in_history": false
-			},
-			{
-				"bot_name": "image-analyzer",
-				"bot_model": "claude-3-5-sonnet-latest",
-				"bot_system_prompt": "You are a smart assistant that analyzes images and outputs detailed descriptions of what he sees.",
-				"bot_example_request": "What do you see in this image?",
-				"bot_example_response": "This image shows a tall, columnar evergreen tree growing in a black nursery pot or container. It appears to be a cypress or juniper variety, with dense, dark green foliage that grows in a narrow, upright pyramidal shape. These types of trees are popular for landscaping, especially in formal gardens or as accent plants, and they can also be used to create natural privacy screens when planted in rows. The tree looks healthy and well-maintained, with consistent coloring throughout its foliage.",
-				"temperature": 0.6,
-				"max_tokens": 2000,
-				"chat_history": 6,
-				"retry_delay": 30,
-				"max_retries": 3,
-				"use_vision": true,
-				"include_vision_in_history": false
-			}
-		],
-		"anth_models": [
-			{
-				"model_active": true,
-				"model_name": "claude-3-5-sonnet-latest"
-			},
-			{
-				"model_active": true,
-				"model_name": "claude-3-5-haiku-latest"
-			},
-			{
-				"model_active": true,
-				"model_name": "claude-3-opus-latest"
-			}
-		],
-		"opai_models": [
-			{
-				"model_active": true,
-				"model_name": "gpt-4o"
-			},
-			{
-				"model_active": true,
-				"model_name": "gpt-4o-mini"
-			},
-			{
-				"model_active": true,
-				"model_name": "gpt-4-turbo"
-			},
-			{
-				"model_active": true,
-				"model_name": "gpt-4"
-			},
-			{
-				"model_active": true,
-				"model_name": "gpt-3.5-turbo"
-			},
-			{
-				"model_active": true,
-				"model_name": "o1-mini"
-			}
-		],
-		"custom_models": [
-		],
-		"pplx_models": [
-			{
-				"model_active": true,
-				"model_name": "llama-3.1-sonar-small-128k-online"
-			},
-			{
-				"model_active": true,
-				"model_name": "llama-3.1-sonar-large-128k-online"
-			},
-			{
-				"model_active": true,
-				"model_name": "llama-3.1-sonar-huge-128k-online"
-			}
-		],
-		"oprt_models": [
-			{
-				"model_active": true,
-				"model_name": "meta-llama/llama-3.2-3b-instruct:free"
-			},
-			{
-				"model_active": true,
-				"model_name": "qwen/qwen-2-7b-instruct:free"
-			},
-			{
-				"model_active": true,
-				"model_name": "mistralai/mistral-7b-instruct:free"
-			},
-			{
-				"model_active": true,
-				"model_name": "microsoft/phi-3-mini-128k-instruct:free"
-			}
-		]
-	},
-	"protectedNative": [
-		"anth_api_token",
-		"opai_api_token",
-		"pplx_api_token",
-		"oprt_api_token",
-		"custom_api_token"
-	],
-	"encryptedNative": [
-		"anth_api_token",
-		"opai_api_token",
-		"pplx_api_token",
-		"oprt_api_token",
-		"custom_api_token"
-	],
-	"objects": [],
-	"instanceObjects": []
+    "common": {
+        "name": "ai-toolbox",
+        "version": "0.0.7",
+        "news": {
+            "0.0.7": {
+                "en": "Added translations, updated Readme, changed image fetch method to axios",
+                "de": "Übersetzungen hinzugefügt, Readme aktualisiert, Bildabrufmethode auf axios geändert",
+                "ru": "Добавлены переводы, обновлен Readme, изменен метод получения изображений на axios.",
+                "pt": "Traduções adicionadas, Readme atualizado, método de busca de imagem alterado para axios",
+                "nl": "Vertalingen toegevoegd, Leesmij bijgewerkt, methode voor het ophalen van afbeeldingen gewijzigd in axios",
+                "fr": "Traductions ajoutées, fichier Lisezmoi mis à jour, méthode de récupération d'image modifiée en axios",
+                "it": "Aggiunte traduzioni, file Readme aggiornato, metodo di recupero delle immagini modificato in axios",
+                "es": "Se agregaron traducciones, se actualizó el archivo Léame y se cambió el método de obtención de imágenes a axios.",
+                "pl": "Dodano tłumaczenia, zaktualizowano plik Readme, zmieniono metodę pobierania obrazu na axios",
+                "uk": "Додано переклади, оновлено Readme, змінено метод отримання зображення на axios",
+                "zh-cn": "添加翻译，更新自述文件，将图像获取方法更改为 axios"
+            },
+            "0.0.6": {
+                "en": "Added local file import for vision / image request",
+                "de": "Lokaler Dateiimport für Vision-/Bildanfrage hinzugefügt",
+                "ru": "Добавлен импорт локального файла для запроса видения/изображения.",
+                "pt": "Adicionada importação de arquivo local para solicitação de visão/imagem",
+                "nl": "Lokale bestandsimport toegevoegd voor visie-/beeldverzoek",
+                "fr": "Ajout de l'importation de fichiers locaux pour la demande de vision/image",
+                "it": "Aggiunta importazione file locale per richiesta visione/immagine",
+                "es": "Se agregó importación de archivos locales para solicitud de visión/imagen.",
+                "pl": "Dodano import plików lokalnych dla żądania wizji/obrazu",
+                "uk": "Додано імпорт локального файлу для запиту бачення/зображення",
+                "zh-cn": "添加了视觉/图像请求的本地文件导入"
+            }
+        },
+        "titleLang": {
+            "en": "A.I. Toolbox",
+            "de": "K.I. Werkzeugkasten",
+            "ru": "А.И. Ящик для инструментов",
+            "pt": "IA Caixa de ferramentas",
+            "nl": "AI Gereedschapskist",
+            "fr": "I.A. Boîte à outils",
+            "it": "A.I. Cassetta degli attrezzi",
+            "es": "AI. Caja de instrumento",
+            "pl": "sztuczna inteligencja Skrzynka narzędziowa",
+            "uk": "А.І. Ящик інструментів",
+            "zh-cn": "人工智能。工具箱"
+        },
+        "desc": {
+            "en": "The ioBroker AI Toolbox Adapter is a powerful integration that enables users to create and manage custom AI tools within their ioBroker smart home environment. This versatile adapter supports multiple Large Language Models (LLMs) and provides a flexible framework for AI-based automation and interaction.",
+            "de": "Der ioBroker AI Toolbox-Adapter ist eine leistungsstarke Integration, die es Benutzern ermöglicht, benutzerdefinierte KI-Tools innerhalb ihrer ioBroker-Smart-Home-Umgebung zu erstellen und zu verwalten. Dieser vielseitige Adapter unterstützt mehrere Large Language Models (LLMs) und bietet ein flexibles Framework für KI-basierte Automatisierung und Interaktion.",
+            "ru": "Адаптер ioBroker AI Toolbox — это мощная интеграция, которая позволяет пользователям создавать собственные инструменты искусственного интеллекта и управлять ими в среде умного дома ioBroker. Этот универсальный адаптер поддерживает несколько моделей больших языков (LLM) и обеспечивает гибкую основу для автоматизации и взаимодействия на основе искусственного интеллекта.",
+            "pt": "O adaptador ioBroker AI Toolbox é uma integração poderosa que permite aos usuários criar e gerenciar ferramentas de IA personalizadas em seu ambiente doméstico inteligente ioBroker. Este adaptador versátil oferece suporte a vários modelos de linguagem grande (LLMs) e fornece uma estrutura flexível para automação e interação baseadas em IA.",
+            "nl": "De ioBroker AI Toolbox Adapter is een krachtige integratie waarmee gebruikers aangepaste AI-tools kunnen creëren en beheren binnen hun ioBroker smart home-omgeving. Deze veelzijdige adapter ondersteunt meerdere Large Language Models (LLM's) en biedt een flexibel raamwerk voor op AI gebaseerde automatisering en interactie.",
+            "fr": "L'adaptateur ioBroker AI Toolbox est une intégration puissante qui permet aux utilisateurs de créer et de gérer des outils d'IA personnalisés dans leur environnement de maison intelligente ioBroker. Cet adaptateur polyvalent prend en charge plusieurs grands modèles de langage (LLM) et fournit un cadre flexible pour l'automatisation et l'interaction basées sur l'IA.",
+            "it": "L'adattatore AI Toolbox ioBroker è una potente integrazione che consente agli utenti di creare e gestire strumenti AI personalizzati all'interno del loro ambiente di casa intelligente ioBroker. Questo versatile adattatore supporta più Large Language Models (LLM) e fornisce un framework flessibile per l'automazione e l'interazione basate sull'intelligenza artificiale.",
+            "es": "El adaptador ioBroker AI Toolbox es una poderosa integración que permite a los usuarios crear y administrar herramientas de IA personalizadas dentro de su entorno doméstico inteligente ioBroker. Este adaptador versátil admite múltiples modelos de lenguajes grandes (LLM) y proporciona un marco flexible para la automatización e interacción basadas en IA.",
+            "pl": "Adapter ioBroker AI Toolbox to potężna integracja, która umożliwia użytkownikom tworzenie niestandardowych narzędzi AI i zarządzanie nimi w inteligentnym środowisku domowym ioBroker. Ten wszechstronny adapter obsługuje wiele modeli dużych języków (LLM) i zapewnia elastyczną platformę dla automatyzacji i interakcji opartej na sztucznej inteligencji.",
+            "uk": "Адаптер ioBroker AI Toolbox Adapter — це потужна інтеграція, яка дозволяє користувачам створювати спеціальні інструменти AI і керувати ними в середовищі розумного дому ioBroker. Цей універсальний адаптер підтримує кілька великих мовних моделей (LLM) і забезпечує гнучку структуру для автоматизації та взаємодії на основі ШІ.",
+            "zh-cn": "ioBroker AI Toolbox 适配器是一个功能强大的集成，使用户能够在其 ioBroker 智能家居环境中创建和管理自定义 AI 工具。这款多功能适配器支持多种大型语言模型 (LLM)，并为基于 AI 的自动化和交互提供灵活的框架。"
+        },
+        "authors": [
+            "ToGe3688 <toge3688@gmail.com>"
+        ],
+        "keywords": [
+            "AI",
+            "KI",
+            "OpenAI",
+            "ChatGPT",
+            "Anthropic",
+            "Openrouter",
+            "Perplexity",
+            "LM Studio",
+            "Chatbot",
+            "Bot"
+        ],
+        "licenseInformation": {
+            "type": "free",
+            "license": "MIT"
+        },
+        "platform": "Javascript/Node.js",
+        "icon": "ai-toolbox.png",
+        "enabled": true,
+        "extIcon": "https://raw.githubusercontent.com/ToGe3688/ioBroker.ai-toolbox/main/admin/ai-toolbox.png",
+        "readme": "https://github.com/ToGe3688/ioBroker.ai-toolbox/blob/main/README.md",
+        "loglevel": "info",
+        "tier": 3,
+        "mode": "daemon",
+        "type": "logic",
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "push",
+        "messagebox": true,
+        "supportedMessages": {
+            "custom": true,
+            "notifications": true
+        },
+        "adminUI": {
+            "config": "json"
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=6.0.11"
+            }
+        ],
+        "globalDependencies": [
+            {
+                "admin": ">=6.17.1"
+            }
+        ]
+    },
+    "native": {
+        "bots": [
+            {
+                "bot_name": "simple-chatbot",
+                "bot_model": "meta-llama/llama-3.2-3b-instruct:free",
+                "bot_system_prompt": "You are a friendly and conversational chatbot. Respond to user messages in an engaging and cheerful way. Keep your answers brief and focus on maintaining a pleasant tone.",
+                "bot_example_request": "Hi there! How are you today?",
+                "bot_example_response": "I'm doing great, thanks for asking! How about you?",
+                "temperature": 0.8,
+                "max_tokens": 3000,
+                "chat_history": 10,
+                "retry_delay": 30,
+                "max_retries": 3,
+                "use_vision": false,
+                "include_vision_in_history": false
+            },
+            {
+                "bot_name": "weather-reporter",
+                "bot_model": "meta-llama/llama-3.2-3b-instruct:free",
+                "bot_system_prompt": "You are a weather reporter chatbot. Based on the input data, generate a detailed and engaging weather report. Your response should include a friendly greeting, a brief overview of the current conditions, and a suggestion for the day. Keep your tone cheerful and informative.",
+                "bot_example_request": "Current datetime 12/7/2024, 12:00:01 PM. Weatherdata: Temperature 7°C, Humidity 87%, Cloudcover 93%, Airpressure 997mbar, Wind 23kmh, Rain 0mm.",
+                "bot_example_response": "Hello there! 🌤️ Happy December 7th! As we step into the afternoon, the weather is quite cool at a temperature of 7°C. With a humidity level of 87%, it feels a bit damp out there, so don’t forget to grab your favorite cozy sweater if you’re heading outside! Cloud cover is fairly high today, sitting at 93%, which gives the sky a soft, overcast appearance. The air pressure is at 997 mbar, and while there’s a moderate wind blowing at 23 km/h, it might feel a tad brisk, so a light jacket would be a good call. The good news is that we haven’t seen any rain today, so if you’re planning to venture out, it’s a great time for a stroll or perhaps a warm drink at your favorite café! Stay warm and enjoy your day! ☕🌧️",
+                "temperature": 0.7,
+                "max_tokens": 2000,
+                "chat_history": 5,
+                "retry_delay": 30,
+                "max_retries": 3,
+                "use_vision": false,
+                "include_vision_in_history": false
+            },
+            {
+                "bot_name": "music-recommender",
+                "bot_model": "meta-llama/llama-3.2-3b-instruct:free",
+                "bot_system_prompt": "You are a music assistant. Based on the current weather and time of day, suggest a playlist or genre that matches the mood. Use concise and creative recommendations. You answer only with your suggestion and nothing else.",
+                "bot_example_request": "Current Time 24th December 2024 17:30. Outside Temperature: 10°C.",
+                "bot_example_response": "Christmas Music",
+                "temperature": 0.7,
+                "max_tokens": 2000,
+                "chat_history": 7,
+                "retry_delay": 30,
+                "max_retries": 3,
+                "use_vision": false,
+                "include_vision_in_history": false
+            },
+            {
+                "bot_name": "light-setter",
+                "bot_model": "meta-llama/llama-3.2-3b-instruct:free",
+                "bot_system_prompt": "You are a smart home assistant. Based on the characteristics of the currently playing music, recommend RGB hex color values for five different lights to create an immersive atmosphere. Respond only with a JSON object containing the RGB hex values for each light.",
+                "bot_example_request": "Faithless - Insomnia",
+                "bot_example_response": "{\"light1\": \"#FF4500\",\"light2\": \"#FFA500\",\"light3\": \"#FFFF00\",\"light4\": \"#ADFF2F\",\"light5\": \"#00FF00\"}",
+                "temperature": 0.6,
+                "max_tokens": 2000,
+                "chat_history": 0,
+                "retry_delay": 30,
+                "max_retries": 3,
+                "use_vision": false,
+                "include_vision_in_history": false
+            },
+            {
+                "bot_name": "image-analyzer",
+                "bot_model": "claude-3-5-sonnet-latest",
+                "bot_system_prompt": "You are a smart assistant that analyzes images and outputs detailed descriptions of what he sees.",
+                "bot_example_request": "What do you see in this image?",
+                "bot_example_response": "This image shows a tall, columnar evergreen tree growing in a black nursery pot or container. It appears to be a cypress or juniper variety, with dense, dark green foliage that grows in a narrow, upright pyramidal shape. These types of trees are popular for landscaping, especially in formal gardens or as accent plants, and they can also be used to create natural privacy screens when planted in rows. The tree looks healthy and well-maintained, with consistent coloring throughout its foliage.",
+                "temperature": 0.6,
+                "max_tokens": 2000,
+                "chat_history": 6,
+                "retry_delay": 30,
+                "max_retries": 3,
+                "use_vision": true,
+                "include_vision_in_history": false
+            }
+        ],
+        "anth_models": [
+            {
+                "model_active": true,
+                "model_name": "claude-3-5-sonnet-latest"
+            },
+            {
+                "model_active": true,
+                "model_name": "claude-3-5-haiku-latest"
+            },
+            {
+                "model_active": true,
+                "model_name": "claude-3-opus-latest"
+            }
+        ],
+        "opai_models": [
+            {
+                "model_active": true,
+                "model_name": "gpt-4o"
+            },
+            {
+                "model_active": true,
+                "model_name": "gpt-4o-mini"
+            },
+            {
+                "model_active": true,
+                "model_name": "gpt-4-turbo"
+            },
+            {
+                "model_active": true,
+                "model_name": "gpt-4"
+            },
+            {
+                "model_active": true,
+                "model_name": "gpt-3.5-turbo"
+            },
+            {
+                "model_active": true,
+                "model_name": "o1-mini"
+            }
+        ],
+        "custom_models": [],
+        "pplx_models": [
+            {
+                "model_active": true,
+                "model_name": "llama-3.1-sonar-small-128k-online"
+            },
+            {
+                "model_active": true,
+                "model_name": "llama-3.1-sonar-large-128k-online"
+            },
+            {
+                "model_active": true,
+                "model_name": "llama-3.1-sonar-huge-128k-online"
+            }
+        ],
+        "oprt_models": [
+            {
+                "model_active": true,
+                "model_name": "meta-llama/llama-3.2-3b-instruct:free"
+            },
+            {
+                "model_active": true,
+                "model_name": "qwen/qwen-2-7b-instruct:free"
+            },
+            {
+                "model_active": true,
+                "model_name": "mistralai/mistral-7b-instruct:free"
+            },
+            {
+                "model_active": true,
+                "model_name": "microsoft/phi-3-mini-128k-instruct:free"
+            }
+        ]
+    },
+    "protectedNative": [
+        "anth_api_token",
+        "opai_api_token",
+        "pplx_api_token",
+        "oprt_api_token",
+        "custom_api_token"
+    ],
+    "encryptedNative": [
+        "anth_api_token",
+        "opai_api_token",
+        "pplx_api_token",
+        "oprt_api_token",
+        "custom_api_token"
+    ],
+    "objects": [],
+    "instanceObjects": []
 }

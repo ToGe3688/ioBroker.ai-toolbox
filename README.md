@@ -14,7 +14,7 @@
 
 ## Overview
 
-The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart home. It supports multiple Large Language Model (LLM) providers and provides a flexible framework for automation and interaction. By combining real-time data from smart home devices, with AI capabilities, the ioBroker AI Toolbox Adapter can create highly personalized and useful tools for your household automation tasks and interaction with LLM Models.
+The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart home. It supports multiple Large Language Model (LLM) providers and provides a flexible framework for automation and interaction. By combining data from smart home devices, with AI capabilities, the ioBroker AI Toolbox Adapter can create highly personalized and useful tools for your household automation tasks and interaction with LLM Models.
 
 ## Features
 
@@ -36,7 +36,7 @@ The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart
 
 ## Quick Start
 1. Install the adapter.
-2. Create Account and g et API Token from openrouter.ai
+2. Create Account and get API Token from openrouter.ai
 3. Configure the adapter with the API Token.
 4. The Example tools created at installation use the free model meta-llama/llama-3.2-3b-instruct:free for OpenRouter.
 5. Send a message to the tool with the .text_request datapoint and check .text_response for the response.
@@ -120,10 +120,11 @@ Each tool appears in the ioBroker object tree. Use `Tools.$YourToolName.text_req
 
 #### Vision/Image Requests
 
-If you have enabled vision/image requests, you can use `Tools.$YourToolName.image_url` to set an image URL or local file path for the tool to analyze. The image will be send when you set the state of the `Tools.$YourToolName.text_request` datapoint. 
-Note: As the image gets converted to a base64 string you can also use a local url or file path that ioBroker can access.
+If you have enabled vision/image requests, you can use `Tools.$YourToolName.image_url` to set an image URL or local file path for the tool to analyze. The image will be included in the request when you set the state of the `Tools.$YourToolName.text_request` datapoint. 
 
-### Script Integration (`sendTo`)
+Note: You can use a local url (e.g. in your local network http://192.168.178.1/image.jpg) or file path (where ioBroker has permission to read the files e.g. /opt/iobroker/iobroker-data/telegram_0/photo/image.jpg). The adapter converts the image to a base64 string and includes it in the request.
+
+## Script Integration (`sendTo`)
 
 You can interact programmatically using the `sendTo` function:
 
@@ -152,30 +153,70 @@ sendTo('ai-toolbox.0', 'tool_request', {
 sendTo('ai-toolbox.0', 'tool_request', {
     'tool': 'YOUR-TOOL-NAME',
     'text': 'The message for the tool to respond to',
-    'image_url': '/opt/iobroker/iobroker-data/telegram_0/photo/2024-12-26_22-20-20_high.jpg',
+    'image_url': '/opt/iobroker/iobroker-data/telegram_0/photo/image.jpg',
 }, async (result) => {
     console.info(result); // Outputs the tool's response as text string
 });
 ```
 
-## Using Models without Tools
+### Using Models without Tools
 
 ### Object Interaction
 
 Each defined model also appears in the ioBroker object tree.  Use `Models.$ModelName.text_request` to send queries and `Models.$ModelName.text_response` to retrieve answers. With the script integration you can create even more creative integrations for example you could create a dynamic system prompt.
 
-### Script Integration (`sendTo`)
+## Script Integration (`sendTo`)
 
 You can interact programmatically using the `sendTo` function:
 
+#### Text Requests
 ```javascript
 sendTo('ai-toolbox.0', 'model_request', {
     'model': 'MODEL-NAME',
     'system_prompt': 'System prompt for your request'
-    'temperature': 'Temperature setting for your request'
-    'max_tokens': 'Max number of tokens to generate'
+    'temperature': 'Temperature setting for your request (Optional: Default 0.6)'
+    'max_tokens': 'Max number of tokens to generate (Optional: Default 2000)'
+    'text': 'The message for the tool to respond to'
+}, async (result) => {
+    console.info(result.text); // Text response of the model
+    console.info(result.model); // Used model for request
+    console.info(result.tokens_input); // Used input tokens
+    console.info(result.tokens_output); // Used output tokens
+    console.info(result.error); // Error, populated if request fails
+    console.info(result.request_data); // JSON object with request data
+    console.info(result.response_data); // JSON object with raw response of the API call
+});
+```
+
+#### Vision/Image Requests with URL
+```javascript
+sendTo('ai-toolbox.0', 'model_request', {
+    'model': 'MODEL-NAME',
+    'system_prompt': 'System prompt for your request'
+    'temperature': 'Temperature setting for your request (Optional: Default 0.6)'
+    'max_tokens': 'Max number of tokens to generate (Optional: Default 2000)'
     'text': 'The message for the tool to respond to',
     'image_url': 'https://url-of-the-image-to-analyze.com/image.jpg',
+}, async (result) => {
+    console.info(result.text); // Text response of the model
+    console.info(result.model); // Used model for request
+    console.info(result.tokens_input); // Used input tokens
+    console.info(result.tokens_output); // Used output tokens
+    console.info(result.error); // Error, populated if request fails
+    console.info(result.request_data); // JSON object with request data
+    console.info(result.response_data); // JSON object with raw response of the API call
+});
+```
+
+#### Vision/Image Requests with Local File
+```javascript
+sendTo('ai-toolbox.0', 'model_request', {
+    'model': 'MODEL-NAME',
+    'system_prompt': 'System prompt for your request'
+    'temperature': 'Temperature setting for your request (Optional: Default 0.6)'
+    'max_tokens': 'Max number of tokens to generate (Optional: Default 2000)'
+    'text': 'The message for the tool to respond to',
+    'image_url': '/opt/iobroker/iobroker-data/telegram_0/photo/image.jpg',
 }, async (result) => {
     console.info(result.text); // Text response of the model
     console.info(result.model); // Used model for request
@@ -534,46 +575,29 @@ These best practices, combined with experimentation and iterative improvement, w
 
 Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 
+## Changelog
+<!--
+	Placeholder for the next version (at the beginning of the line):
+	### **WORK IN PROGRESS**
+-->
+### 0.0.7 (2024-27-12)
+* (@ToGe3688) Added translations, updated Readme, changed image fetch method to axios
+
+### 0.0.6 (2024-26-12)
+* (@ToGe3688) Added support for local files for image analysis
+
+### 0.0.4 (2024-26-12)
+* (@ToGe3688) Added vision capabilities for tools
+
+### 0.0.3 (2024-25-12)
+* (@ToGe3688) Fixed a bug with the OpenAI API Provider
+
+### 0.0.2 (2024-07-12)
+* (@ToGe3688) Added direct model requests, moved tools to separate objects, added statistics and request history
+
+### 0.0.1 (2024-05-12)
+* (@ToGe3688) initial release
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Changelog
-**0.0.6** - 2024-26-12 (ToGe3688) 
-* Added support for local files for image analysis
-
-**0.0.4** - 2024-26-12 (ToGe3688) 
-* Added vision capabilities for tools
-* Improved admin ui
-
-**0.0.3** - 2024-25-12 (ToGe3688) 
-* Fixed a bug with the OpenAI API Provider
-
-**0.0.2** - 2024-07-12 (ToGe3688) 
-* Added direct model requests, moved tools to separate objects, added statistics and request history
-
-**0.0.1** - 2024-05-12 (ToGe3688) 
-* initial release
-
-## License
-MIT License
-
-Copyright (c) 2024 Tobias Geier <toge3688@gmail.com>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.

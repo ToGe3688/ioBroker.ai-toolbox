@@ -4,6 +4,7 @@
  * Created with @iobroker/create-adapter v2.6.5
  */
 const utils = require("@iobroker/adapter-core");
+const axios = require("axios");
 const fs = require("fs");
 const mime = require("mime-types");
 const AnthropicAiProvider = require("./lib/anthropic-ai-provider");
@@ -77,7 +78,8 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectAsync("Models." + model + ".text_request", {
 				type: "state",
 				common: {
-					name: "Start tool request",
+					name: "Request",
+					desc: "Start a direct request to the model with the entered text",
 					type: "string",
 					role: "text",
 					read: true,
@@ -92,7 +94,8 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync("Models." + model + ".text_response", {
 				type: "state",
 				common: {
-					name: "Response from tool",
+					name: "Response",
+					desc: "The response received from the model",
 					type: "string",
 					role: "text",
 					read: true,
@@ -254,7 +257,7 @@ class AiToolbox extends utils.Adapter {
 					type: "state",
 					common: {
 						name: "Image URL",
-						description: "URL of an image to send with the next text request",
+						desc: "URL of an image to send with the next text request",
 						type: "string",
 						role: "text",
 						read: true,
@@ -268,7 +271,8 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectAsync("Tools." + bot.bot_name + ".text_request", {
 				type: "state",
 				common: {
-					name: "Start direct model request",
+					name: "Request",
+					desc: "Start a request to the tool with the entered text",
 					type: "string",
 					role: "text",
 					read: true,
@@ -281,7 +285,8 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync("Tools." + bot.bot_name + ".text_response", {
 				type: "state",
 				common: {
-					name: "Response from model",
+					name: "Response",
+					desc: "The response received from the tool",
 					type: "string",
 					role: "text",
 					read: true,
@@ -319,7 +324,8 @@ class AiToolbox extends utils.Adapter {
 			await this.setObjectNotExistsAsync("Tools." + bot.bot_name + ".statistics.messages", {
 				type: "state",
 				common: {
-					name: "Previous messages for tool " + bot.bot_name,
+					name: "Message history",
+					desc: "Previous messages for tool " + bot.bot_name,
 					type: "string",
 					role: "text",
 					read: true,
@@ -540,6 +546,7 @@ class AiToolbox extends utils.Adapter {
 	 * Returns the response data if the request was successful, otherwise false.
 	 * @param {Object} bot - The bot configuration object.
 	 * @param {string} text - The text to send to the bot.
+	 * @param {Object} image - The image to send to the bot.
 	 * @param {number} tries - The number of tries for the request.
 	 * @param {boolean} try_only_once - If true, the request will only be tried once.
 	 */
@@ -1027,22 +1034,22 @@ class AiToolbox extends utils.Adapter {
 		if (url.startsWith("https://") || url.startsWith("http://")) {
 			this.log.debug("Fetching image from URL: " + url);
 			try {
-				const response = await fetch(url);
-				if (!response.ok) {
+				const response = await axios.get(url, { responseType: "arraybuffer" });
+				if (response.status !== 200) {
 					this.log.warn("Failed to fetch image from " + url + " with status: " + response.status);
 					return responseObject;
 				}
-				const mimeType = response.headers.get("content-type");
+				const mimeType = response.headers["content-type"];
 				if (!mimeType || !mimeType.includes("image")) {
 					this.log.warn("Response from " + url + " is not an image, mimeType: " + mimeType);
 					return responseObject;
 				}
-				const buffer = await response.arrayBuffer();
+				const buffer = response.data;
 				if (!buffer) {
 					this.log.warn("Failed to fetch image from " + url + " as array buffer");
 					return responseObject;
 				}
-				const base64 = btoa(String.fromCharCode(...new Uint8Array(buffer)));
+				const base64 = Buffer.from(buffer, "binary").toString("base64");
 				if (!base64) {
 					this.log.warn("Failed to fetch image from " + url + " as base64");
 					return responseObject;
