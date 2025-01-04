@@ -5,7 +5,16 @@
         "news": {
             "0.1.0": {
                 "en": "Beta release",
-                "de": "Beta veröffentlichung"
+                "de": "Beta veröffentlichung",
+                "ru": "Бета-версия",
+                "pt": "Versão beta",
+                "nl": "Bèta-release",
+                "fr": "Version bêta",
+                "it": "Versione beta",
+                "es": "Lanzamiento beta",
+                "pl": "Wersja beta",
+                "uk": "Бета-версія",
+                "zh-cn": "测试版"
             },
             "0.0.7": {
                 "en": "Added translations, updated Readme, changed image fetch method to axios",
