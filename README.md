@@ -605,4 +605,4 @@ Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-Copyright (c) 2024 ToGe3688 <toge3688@gmail.com>
+Copyright (c) 2025 ToGe3688 <toge3688@gmail.com>
