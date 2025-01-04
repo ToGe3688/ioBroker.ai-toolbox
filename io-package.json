@@ -1,8 +1,12 @@
 {
     "common": {
         "name": "ai-toolbox",
-        "version": "0.0.7",
+        "version": "0.1.0",
         "news": {
+            "0.1.0": {
+                "en": "Beta release",
+                "de": "Beta veröffentlichung"
+            },
             "0.0.7": {
                 "en": "Added translations, updated Readme, changed image fetch method to axios",
                 "de": "Übersetzungen hinzugefügt, Readme aktualisiert, Bildabrufmethode auf axios geändert",
