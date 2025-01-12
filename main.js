@@ -634,7 +634,9 @@ class AiToolbox extends utils.Adapter {
                 messages.push({ role: "user", content: text });
             }
 
-            const modelResponse = await this.startModelRequest(
+            let modelResponse = {};
+
+            modelResponse = await this.startModelRequest(
                 bot.bot_model,
                 messages,
                 bot.bot_system_prompt,
@@ -831,7 +833,7 @@ class AiToolbox extends utils.Adapter {
      * Logs a warning if the request is invalid.
      * Returns the validated request object or false if the request is invalid.
      *
-     * @param requestObj - The request object.
+     * @param {object} requestObj - The request object.
      * @param requestObj.model - The model name.
      * @param requestObj.messages - The messages to send to the model.
      * @param requestObj.feedback_device - The feedback device for the model.
@@ -873,7 +875,7 @@ class AiToolbox extends utils.Adapter {
      * Validates the message history and returns an array of messages.
      *
      * @param bot - The bot configuration object.
-     * @returns - An array of validated messages.
+     * @returns Object - The validated message history object.
      */
     async getValidatedMessageHistory(bot) {
         bot.bot_name = this.stringToAlphaNumeric(bot.bot_name);
@@ -957,7 +959,7 @@ class AiToolbox extends utils.Adapter {
      * Updates the statistics for the specified bot with the response data.
      *
      * @param bot - The bot configuration object.
-     * @param response - The response from the assistant.
+     * @param {object} response - The response from the assistant.
      * @param response.tokens_input - The number of input tokens used in the request.
      * @param response.tokens_output - The number of output tokens used in the response.
      */
@@ -1011,7 +1013,7 @@ class AiToolbox extends utils.Adapter {
      * Updates the statistics for the specified model with the response data.
      *
      * @param model - The model name.
-     * @param response - The response from the model.
+     * @param {object} response - The response from the model.
      * @param response.tokens_input - The number of input tokens used in the request.
      * @param response.tokens_output - The number of output tokens used in the response.
      */
@@ -1259,7 +1261,8 @@ class AiToolbox extends utils.Adapter {
                             }
                         }
 
-                        const response = await this.startBotRequest(bot, obj.message.text, image, 1, true);
+                        let response = {};
+                        response = await this.startBotRequest(bot, obj.message.text, image, 1, true);
 
                         if (!response.text || response.text.trim() == "") {
                             this.log.warn(`No response from tool ${bot.bot_name} for request via sendTo`);

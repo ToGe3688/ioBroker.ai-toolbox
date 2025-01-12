@@ -1,6 +1,6 @@
 {
   "name": "iobroker.ai-toolbox",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "The ioBroker AI Toolbox Adapter is a powerful integration that enables users to create and manage custom AI tools within their ioBroker smart home environment. This versatile adapter supports multiple Large Language Models (LLMs) and provides a flexible framework for AI-based automation and interaction.",
   "author": {
     "name": "ToGe3688",

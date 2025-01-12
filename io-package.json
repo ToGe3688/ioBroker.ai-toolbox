@@ -1,8 +1,34 @@
 {
     "common": {
         "name": "ai-toolbox",
-        "version": "0.1.0",
+        "version": "0.1.2",
         "news": {
+            "0.1.2": {
+                "en": "Better error handling for Provider APIs. Added Anthropic API Versioning.",
+                "de": "Bessere Fehlerbehandlung für Provider-APIs. Anthropic API-Versionierung hinzugefügt.",
+                "ru": "Улучшенная обработка ошибок для API-интерфейсов поставщиков. Добавлено управление версиями Anthropic API.",
+                "pt": "Melhor tratamento de erros para APIs de provedores. Adicionado versionamento da API Antrópica.",
+                "nl": "Betere foutafhandeling voor Provider-API's. Antropische API-versiebeheer toegevoegd.",
+                "fr": "Meilleure gestion des erreurs pour les API du fournisseur. Ajout de la gestion des versions de l'API Anthropic.",
+                "it": "Migliore gestione degli errori per le API del provider. Aggiunto il controllo delle versioni dell'API antropica.",
+                "es": "Mejor manejo de errores para las API de proveedores. Se agregó control de versiones de API antrópica.",
+                "pl": "Lepsza obsługa błędów w interfejsach API dostawcy. Dodano wersję Anthropic API.",
+                "uk": "Покращена обробка помилок для API постачальників. Додано керування версіями Anthropic API.",
+                "zh-cn": "更好地处理提供者 API 的错误。添加了 Anthropic API 版本控制。"
+            },
+            "0.1.1": {
+                "en": "Added default timeouts for api providers",
+                "de": "Timeouts hinzugefügt für alle API Anbieter",
+                "ru": "Добавлены таймауты по умолчанию для провайдеров API.",
+                "pt": "Adicionados tempos limite padrão para provedores de API",
+                "nl": "Standaard time-outs toegevoegd voor API-providers",
+                "fr": "Ajout de délais d'attente par défaut pour les fournisseurs d'API",
+                "it": "Aggiunti timeout predefiniti per i provider API",
+                "es": "Se agregaron tiempos de espera predeterminados para proveedores de API.",
+                "pl": "Dodano domyślne limity czasu dla dostawców API",
+                "uk": "Додано час очікування за замовчуванням для постачальників API",
+                "zh-cn": "添加了 api 提供者的默认超时"
+            },
             "0.1.0": {
                 "en": "Beta release",
                 "de": "Beta veröffentlichung",
@@ -192,6 +218,7 @@
                 "include_vision_in_history": false
             }
         ],
+        "anth_api_version": "2023-06-01",
         "anth_models": [
             {
                 "model_active": true,
