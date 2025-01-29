@@ -30,6 +30,7 @@ The ioBroker AI Toolbox Adapter integrates customizable AI tools into your smart
 - **OpenAI**: [openai.com](https://openai.com)  
 - **Perplexity**: [perplexity.ai](https://perplexity.ai)  
 - **OpenRouter**: [openrouter.ai](https://openrouter.ai) (Free usage models for beginners)  
+- **Deepseek**: [deepseek.com](http://deepseek.com/)
 - **Custom/Self-hosted Models** (e.g., LM Studio, LocalAI)  
 
 ---
@@ -99,6 +100,13 @@ Configure each AI provider individually:
 | **Setting**     | **Description**                              |
 |-----------------|----------------------------------------------|
 | **API Token**   | Enter your OpenRouter API token.             |
+| **Models**      | Specify the models to use.                   |
+
+#### Deepseek
+
+| **Setting**     | **Description**                              |
+|-----------------|----------------------------------------------|
+| **API Token**   | Enter your Deepseek API token.               |
 | **Models**      | Specify the models to use.                   |
 
 #### Custom
@@ -580,6 +588,13 @@ Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### 0.1.3 (2025-29-01)
+* (@ToGe3688) Added support for Deepseek as api provider
+* (@ToGe3688) Better display of providers in model selection for admin config
+* (@ToGe3688) Fixed object hirarchy 
+* (@ToGe3688) Fixed state roles
+* (@ToGe3688) Fixed onStateChange handler
+
 ### 0.1.2 (2025-12-01)
 * (@ToGe3688) Better error handling for Provider APIs
 * (@ToGe3688) Added Anthropic API Versioning

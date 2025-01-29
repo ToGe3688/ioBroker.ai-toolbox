@@ -11,6 +11,7 @@ const AnthropicAiProvider = require("./lib/anthropic-ai-provider");
 const OpenAiProvider = require("./lib/openai-ai-provider");
 const PerplexityAiProvider = require("./lib/perplexity-ai-provider");
 const OpenRouterAiProvider = require("./lib/openrouter-ai-provider");
+const DeepseekAiProvider = require("./lib/deepseek-ai-provider");
 const CustomAiProvider = require("./lib/custom-ai-provider");
 
 class AiToolbox extends utils.Adapter {
@@ -42,7 +43,7 @@ class AiToolbox extends utils.Adapter {
 
         // Create Models and Tools objects
         await this.setObjectAsync("Models", {
-            type: "device",
+            type: "folder",
             common: {
                 name: "AI Models",
             },
@@ -50,7 +51,7 @@ class AiToolbox extends utils.Adapter {
         });
 
         await this.setObjectAsync("Tools", {
-            type: "device",
+            type: "folder",
             common: {
                 name: "Created AI Tools",
             },
@@ -66,7 +67,7 @@ class AiToolbox extends utils.Adapter {
             this.log.debug(`Initializing objects for model: ${model}`);
 
             await this.setObjectAsync(`Models.${model}`, {
-                type: "device",
+                type: "folder",
                 common: {
                     name: model,
                 },
@@ -106,7 +107,7 @@ class AiToolbox extends utils.Adapter {
             });
 
             await this.setObjectAsync(`Models.${model}.statistics`, {
-                type: "device",
+                type: "folder",
                 common: {
                     name: `Statistics for ${modelName}`,
                 },
@@ -114,7 +115,7 @@ class AiToolbox extends utils.Adapter {
             });
 
             await this.setObjectAsync(`Models.${model}.response`, {
-                type: "device",
+                type: "folder",
                 common: {
                     name: `Response data for ${modelName}`,
                 },
@@ -122,7 +123,7 @@ class AiToolbox extends utils.Adapter {
             });
 
             await this.setObjectAsync(`Models.${model}.request`, {
-                type: "device",
+                type: "folder",
                 common: {
                     name: `Request data for ${modelName}`,
                 },
@@ -134,7 +135,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "State for the running inference request",
                     type: "string",
-                    role: "indicator",
+                    role: "text",
                     read: true,
                     write: false,
                     def: "",
@@ -147,7 +148,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Sent body for the running inference request",
                     type: "string",
-                    role: "indicator",
+                    role: "json",
                     read: true,
                     write: false,
                     def: "",
@@ -160,7 +161,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Raw response from model",
                     type: "string",
-                    role: "indicator",
+                    role: "json",
                     read: true,
                     write: false,
                     def: "",
@@ -173,7 +174,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Error response from model",
                     type: "string",
-                    role: "indicator",
+                    role: "text",
                     read: true,
                     write: false,
                     def: "",
@@ -186,7 +187,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Used input tokens for model",
                     type: "number",
-                    role: "indicator",
+                    role: "state",
                     read: true,
                     write: false,
                     def: 0,
@@ -199,7 +200,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Used output tokens for model",
                     type: "number",
-                    role: "indicator",
+                    role: "state",
                     read: true,
                     write: false,
                     def: 0,
@@ -212,7 +213,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Count of requests for model",
                     type: "number",
-                    role: "indicator",
+                    role: "state",
                     read: true,
                     write: false,
                     def: 0,
@@ -225,7 +226,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Last request for model",
                     type: "string",
-                    role: "indicator",
+                    role: "date",
                     read: true,
                     write: false,
                     def: "",
@@ -241,7 +242,7 @@ class AiToolbox extends utils.Adapter {
             this.log.debug(`Initializing objects for tool: ${bot.bot_name}`);
 
             await this.setObjectAsync(`Tools.${bot.bot_name}`, {
-                type: "device",
+                type: "folder",
                 common: {
                     name: bot.bot_name,
                 },
@@ -253,7 +254,7 @@ class AiToolbox extends utils.Adapter {
                     type: "state",
                     common: {
                         name: "Image URL",
-                        desc: "URL of an image to send with the next text request",
+                        desc: "URL or local filepath to an image to send with the next text request",
                         type: "string",
                         role: "text",
                         read: true,
@@ -293,7 +294,7 @@ class AiToolbox extends utils.Adapter {
             });
 
             await this.setObjectAsync(`Tools.${bot.bot_name}.statistics`, {
-                type: "device",
+                type: "folder",
                 common: {
                     name: `Statistics for ${bot.bot_name}`,
                 },
@@ -301,7 +302,7 @@ class AiToolbox extends utils.Adapter {
             });
 
             await this.setObjectAsync(`Tools.${bot.bot_name}.response`, {
-                type: "device",
+                type: "folder",
                 common: {
                     name: `Response data for ${bot.bot_name}`,
                 },
@@ -309,7 +310,7 @@ class AiToolbox extends utils.Adapter {
             });
 
             await this.setObjectAsync(`Tools.${bot.bot_name}.request`, {
-                type: "device",
+                type: "folder",
                 common: {
                     name: `Request data for ${bot.bot_name}`,
                 },
@@ -322,7 +323,7 @@ class AiToolbox extends utils.Adapter {
                     name: "Message history",
                     desc: `Previous messages for tool ${bot.bot_name}`,
                     type: "string",
-                    role: "text",
+                    role: "json",
                     read: true,
                     write: false,
                     def: '{"messages": []}',
@@ -336,7 +337,7 @@ class AiToolbox extends utils.Adapter {
                     name: "Clear previous message history",
                     type: "boolean",
                     role: "button",
-                    read: true,
+                    read: false,
                     write: true,
                     def: true,
                 },
@@ -348,7 +349,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "State for the running inference request",
                     type: "string",
-                    role: "indicator",
+                    role: "text",
                     read: true,
                     write: false,
                     def: "",
@@ -361,7 +362,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Sent body for the running inference request",
                     type: "string",
-                    role: "indicator",
+                    role: "json",
                     read: true,
                     write: false,
                     def: "",
@@ -374,7 +375,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Raw response from tool",
                     type: "string",
-                    role: "indicator",
+                    role: "json",
                     read: true,
                     write: false,
                     def: "",
@@ -387,7 +388,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Error response from tool",
                     type: "string",
-                    role: "indicator",
+                    role: "text",
                     read: true,
                     write: false,
                     def: "",
@@ -400,7 +401,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Used input tokens for tool",
                     type: "number",
-                    role: "indicator",
+                    role: "state",
                     read: true,
                     write: false,
                     def: 0,
@@ -413,7 +414,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Used output tokens for tool",
                     type: "number",
-                    role: "indicator",
+                    role: "state",
                     read: true,
                     write: false,
                     def: 0,
@@ -426,7 +427,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Count of requests for tool",
                     type: "number",
-                    role: "indicator",
+                    role: "state",
                     read: true,
                     write: false,
                     def: 0,
@@ -439,7 +440,7 @@ class AiToolbox extends utils.Adapter {
                 common: {
                     name: "Last request for tool",
                     type: "string",
-                    role: "indicator",
+                    role: "date",
                     read: true,
                     write: false,
                     def: "",
@@ -463,7 +464,7 @@ class AiToolbox extends utils.Adapter {
     onUnload(callback) {
         try {
             for (const timeout of this.timeouts) {
-                clearTimeout(timeout);
+                this.clearTimeout(timeout);
             }
             callback();
         } catch (e) {
@@ -479,6 +480,10 @@ class AiToolbox extends utils.Adapter {
      * @param state - The state object.
      */
     async onStateChange(id, state) {
+        // Only handle state changes if they are not acknowledged
+        if (state && state.ack !== false) {
+            return;
+        }
         if (state) {
             // The state was changed
             this.log.debug(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
@@ -700,7 +705,7 @@ class AiToolbox extends utils.Adapter {
                         `Retry request for tool ${bot.bot_name} in ${bot.retry_delay} seconds Text: ${text}`,
                     );
                     this.timeouts.push(
-                        setTimeout(
+                        this.setTimeout(
                             (bot, tries) => {
                                 this.startBotRequest(bot, text, image, tries);
                             },
@@ -833,7 +838,7 @@ class AiToolbox extends utils.Adapter {
      * Logs a warning if the request is invalid.
      * Returns the validated request object or false if the request is invalid.
      *
-     * @param {object} requestObj - The request object.
+     * @param requestObj - The request object.
      * @param requestObj.model - The model name.
      * @param requestObj.messages - The messages to send to the model.
      * @param requestObj.feedback_device - The feedback device for the model.
@@ -959,7 +964,7 @@ class AiToolbox extends utils.Adapter {
      * Updates the statistics for the specified bot with the response data.
      *
      * @param bot - The bot configuration object.
-     * @param {object} response - The response from the assistant.
+     * @param response - The response from the assistant.
      * @param response.tokens_input - The number of input tokens used in the request.
      * @param response.tokens_output - The number of output tokens used in the response.
      */
@@ -1013,7 +1018,7 @@ class AiToolbox extends utils.Adapter {
      * Updates the statistics for the specified model with the response data.
      *
      * @param model - The model name.
-     * @param {object} response - The response from the model.
+     * @param response - The response from the model.
      * @param response.tokens_input - The number of input tokens used in the request.
      * @param response.tokens_output - The number of output tokens used in the response.
      */
@@ -1061,20 +1066,35 @@ class AiToolbox extends utils.Adapter {
      */
     getAvailableModels() {
         const models = [];
-        for (const model of this.config.anth_models) {
-            models.push({ label: model.model_name, value: model.model_name });
+        if (this.config.anth_models) {
+            for (const model of this.config.anth_models) {
+                models.push({ label: `(Anthropic) ${model.model_name}`, value: model.model_name });
+            }
         }
-        for (const model of this.config.opai_models) {
-            models.push({ label: model.model_name, value: model.model_name });
+        if (this.config.opai_models) {
+            for (const model of this.config.opai_models) {
+                models.push({ label: `(OpenAI) ${model.model_name}`, value: model.model_name });
+            }
         }
-        for (const model of this.config.custom_models) {
-            models.push({ label: model.model_name, value: model.model_name });
+        if (this.config.custom_models) {
+            for (const model of this.config.custom_models) {
+                models.push({ label: `(Custom) ${model.model_name}`, value: model.model_name });
+            }
         }
-        for (const model of this.config.pplx_models) {
-            models.push({ label: model.model_name, value: model.model_name });
+        if (this.config.pplx_models) {
+            for (const model of this.config.pplx_models) {
+                models.push({ label: `(Perplexity) ${model.model_name}`, value: model.model_name });
+            }
         }
-        for (const model of this.config.oprt_models) {
-            models.push({ label: model.model_name, value: model.model_name });
+        if (this.config.oprt_models) {
+            for (const model of this.config.oprt_models) {
+                models.push({ label: `(OpenRouter) ${model.model_name}`, value: model.model_name });
+            }
+        }
+        if (this.config.deep_models) {
+            for (const model of this.config.deep_models) {
+                models.push({ label: `(Deepseek) ${model.model_name}`, value: model.model_name });
+            }
         }
         return models;
     }
@@ -1096,40 +1116,60 @@ class AiToolbox extends utils.Adapter {
         const opai_models = this.config.opai_models;
         const pplx_models = this.config.pplx_models;
         const oprt_models = this.config.oprt_models;
+        const deep_models = this.config.deep_models;
         const custom_models = this.config.custom_models;
 
-        for (const model of anth_models) {
-            if (model.model_name == requestedModel && model.model_active) {
-                this.log.debug(`Provider for Model ${model.model_name} is Anthropic`);
-                return new AnthropicAiProvider(this);
+        if (anth_models) {
+            for (const model of anth_models) {
+                if (model.model_name == requestedModel && model.model_active) {
+                    this.log.debug(`Provider for Model ${model.model_name} is Anthropic`);
+                    return new AnthropicAiProvider(this);
+                }
             }
         }
 
-        for (const model of opai_models) {
-            if (model.model_name == requestedModel && model.model_active) {
-                this.log.debug(`Provider for Model ${model.model_name} is OpenAI`);
-                return new OpenAiProvider(this);
+        if (opai_models) {
+            for (const model of opai_models) {
+                if (model.model_name == requestedModel && model.model_active) {
+                    this.log.debug(`Provider for Model ${model.model_name} is OpenAI`);
+                    return new OpenAiProvider(this);
+                }
             }
         }
 
-        for (const model of custom_models) {
-            if (model.model_name == requestedModel && model.model_active) {
-                this.log.debug(`Provider for Model ${model.model_name} is Custom/Selfhosted`);
-                return new CustomAiProvider(this);
+        if (custom_models) {
+            for (const model of custom_models) {
+                if (model.model_name == requestedModel && model.model_active) {
+                    this.log.debug(`Provider for Model ${model.model_name} is Custom/Selfhosted`);
+                    return new CustomAiProvider(this);
+                }
             }
         }
 
-        for (const model of pplx_models) {
-            if (model.model_name == requestedModel && model.model_active) {
-                this.log.debug(`Provider for Model ${model.model_name} is Perplexity`);
-                return new PerplexityAiProvider(this);
+        if (pplx_models) {
+            for (const model of pplx_models) {
+                if (model.model_name == requestedModel && model.model_active) {
+                    this.log.debug(`Provider for Model ${model.model_name} is Perplexity`);
+                    return new PerplexityAiProvider(this);
+                }
             }
         }
 
-        for (const model of oprt_models) {
-            if (model.model_name == requestedModel && model.model_active) {
-                this.log.debug(`Provider for Model ${model.model_name} is OpenRouter`);
-                return new OpenRouterAiProvider(this);
+        if (oprt_models) {
+            for (const model of oprt_models) {
+                if (model.model_name == requestedModel && model.model_active) {
+                    this.log.debug(`Provider for Model ${model.model_name} is OpenRouter`);
+                    return new OpenRouterAiProvider(this);
+                }
+            }
+        }
+
+        if (deep_models) {
+            for (const model of deep_models) {
+                if (model.model_name == requestedModel && model.model_active) {
+                    this.log.debug(`Provider for Model ${model.model_name} is Deepseek`);
+                    return new DeepseekAiProvider(this);
+                }
             }
         }
 
@@ -1154,7 +1194,7 @@ class AiToolbox extends utils.Adapter {
         if (url.startsWith("https://") || url.startsWith("http://")) {
             this.log.debug(`Fetching image from URL: ${url}`);
             try {
-                const response = await axios.get(url, { responseType: "arraybuffer" });
+                const response = await axios.get(url, { responseType: "arraybuffer", timeout: 5000 });
                 if (response.status !== 200) {
                     this.log.warn(`Failed to fetch image from ${url} with status: ${response.status}`);
                     return responseObject;

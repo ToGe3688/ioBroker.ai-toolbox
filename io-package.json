@@ -1,8 +1,21 @@
 {
     "common": {
         "name": "ai-toolbox",
-        "version": "0.1.2",
+        "version": "0.1.3",
         "news": {
+            "0.1.3": {
+                "en": "Added support for Deepseek as API provider. Bugfixing and improvements.",
+                "de": "Unterstützung für Deepseek als API Anbieter hinzugefügt. Fehlerbehebungen und Verbesserungen.",
+                "ru": "Добавлена ​​поддержка DeepSeek в качестве поставщика API. Исполнение ошибок и улучшения.",
+                "pt": "Adicionado suporte ao DeepSeek como provedor de API. Bugfixing e melhorias.",
+                "nl": "Ondersteuning toegevoegd voor Deepseek als API -provider. Bugfixing en verbeteringen.",
+                "fr": "Ajout de la prise en charge de Deepseek en tant que fournisseur d'API. Bugfixing et améliorations.",
+                "it": "Aggiunto supporto per DeepSeek come fornitore API. Bugfix e miglioramenti.",
+                "es": "Se agregó apoyo para Deepseek como proveedor de API. Efeccionamiento de errores y mejoras.",
+                "pl": "Dodano wsparcie dla DeepSeek jako dostawcy API. Fifiks i ulepszenia.",
+                "uk": "Додана підтримка DeepSeek як постачальника API. Погашення та вдосконалення.",
+                "zh-cn": "对DeepSeek作为API提供商的支持增加了支持。错误将其改进和改进。"
+            },
             "0.1.2": {
                 "en": "Better error handling for Provider APIs. Added Anthropic API Versioning.",
                 "de": "Bessere Fehlerbehandlung für Provider-APIs. Anthropic API-Versionierung hinzugefügt.",
@@ -290,6 +303,16 @@
             {
                 "model_active": true,
                 "model_name": "microsoft/phi-3-mini-128k-instruct:free"
+            }
+        ],
+        "deep_models": [
+            {
+                "model_active": true,
+                "model_name": "deepseek-chat"
+            },
+            {
+                "model_active": true,
+                "model_name": "deepseek-reasoner"
             }
         ]
     },

@@ -54,5 +54,6 @@
     "URL for Inference Server": "推理服务器的 URL",
     "When enabled, a .image_url state will be created. Including an image URL in this state along with your text request will send both to the model for processing.": "启用后，将创建 .image_url 状态。在这种状态下包含图像 URL 以及文本请求会将两者发送到模型进行处理。",
     "You are an intelligent AI tool that has the task to..": "你是一个智能人工智能工具，其任务是..",
-    "You can use your custom or self hosted inference server to run open source models. The server needs to follow the rest api standards used by many providers, see examples below. Please make sure to add your used models by name to the table below.": "您可以使用自定义或自托管推理服务器来运行开源模型。服务器需要遵循许多提供商使用的其余 API 标准，请参阅下面的示例。请确保将您使用的型号按名称添加到下表中。"
+    "You can use your custom or self hosted inference server to run open source models. The server needs to follow the rest api standards used by many providers, see examples below. Please make sure to add your used models by name to the table below.": "您可以使用自定义或自托管推理服务器来运行开源模型。服务器需要遵循许多提供商使用的其余 API 标准，请参阅下面的示例。请确保将您使用的型号按名称添加到下表中。",
+    "Create and manage your AI tools. Each tool can be configured with a specific model, prompt, and parameters to optimize performance and results. You can also enable multimodal capabilities for tools that support vision/image requests.": "创建和管理您的AI工具。每个工具都可以使用特定模型，提示和参数配置，以优化性能和结果。您还可以为支持视觉/图像请求的工具启用多模式功能。"
 }

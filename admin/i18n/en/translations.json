@@ -1,6 +1,7 @@
 {
   "AI-Tool": "AI-Tool",
   "Active": "Active",
+  "Create and manage your AI tools. Each tool can be configured with a specific model, prompt, and parameters to optimize performance and results. You can also enable multimodal capabilities for tools that support vision/image requests.": "Create and manage your AI tools. Each tool can be configured with a specific model, prompt, and parameters to optimize performance and results. You can also enable multimodal capabilities for tools that support vision/image requests.",
   "Choose a name for your AI tool and select an appropriate model to process requests.": "Choose a name for your AI tool and select an appropriate model to process requests.",
   "Configure retry behavior for failed requests, including maximum attempts and delay between retries.": "Configure retry behavior for failed requests, including maximum attempts and delay between retries.",
   "Configure these key parameters:\n- Message History: Number of previous messages to include for context\n- Temperature: Controls output creativity/randomness (0-1)\n- Maximum Tokens: Limits the length of the model's response": "Configure these key parameters:\n- Message History: Number of previous messages to include for context\n- Temperature: Controls output creativity/randomness (0-1)\n- Maximum Tokens: Limits the length of the model's response",
