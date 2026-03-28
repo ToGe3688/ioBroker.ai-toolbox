@@ -5,7 +5,7 @@
  */
 const utils = require("@iobroker/adapter-core");
 const axios = require("axios");
-const fs = require("fs");
+const fs = require("node:fs");
 const mime = require("mime-types");
 const AnthropicAiProvider = require("./lib/anthropic-ai-provider");
 const OpenAiProvider = require("./lib/openai-ai-provider");
