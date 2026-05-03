@@ -623,6 +623,8 @@ Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 ### 0.0.1 (2024-05-12)
 * (@ToGe3688) initial release
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 The MIT License (MIT)
