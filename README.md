@@ -588,6 +588,9 @@ Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+### **WORK IN PROGRESS**
+- (copilot) Adapter requires node.js >= 22 now
+
 ### 0.1.3 (2025-29-01)
 * (@ToGe3688) Added support for Deepseek as api provider
 * (@ToGe3688) Better display of providers in model selection for admin config
