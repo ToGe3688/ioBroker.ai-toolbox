@@ -584,6 +584,9 @@ These best practices, combined with experimentation and iterative improvement, w
 Set the log level to `debug` in the ioBroker admin interface for detailed logs.
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+- (iobroker-bot) Adapter requires node.js >= 22 now.
 <!--
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
